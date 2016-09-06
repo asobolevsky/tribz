@@ -203,6 +203,7 @@
 				TargetAttributes = {
 					8BB75F241D7006FB00FD2F75 = {
 						CreatedOnToolsVersion = 7.3.1;
+						DevelopmentTeam = 9E5FJ56WP5;
 					};
 					8BB75F381D7006FB00FD2F75 = {
 						CreatedOnToolsVersion = 7.3.1;
@@ -398,6 +399,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Алексей Соболевский (9E5FJ56WP5)";
 				INFOPLIST_FILE = Tribz/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -410,7 +412,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Алексей Соболевский (9E5FJ56WP5)";
 				INFOPLIST_FILE = Tribz/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
