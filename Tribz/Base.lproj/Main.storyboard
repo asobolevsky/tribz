@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15G31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
@@ -131,8 +131,8 @@
                                             <constraint firstItem="duD-E2-wVj" firstAttribute="leading" secondItem="ZcY-fl-8Au" secondAttribute="leading" constant="10" id="jeJ-VT-XZO"/>
                                         </constraints>
                                     </view>
-                                    <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ZNH-qf-OE3">
-                                        <rect key="frame" x="429" y="498" width="141" height="52"/>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ZNH-qf-OE3">
+                                        <rect key="frame" x="428" y="498" width="142" height="52"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="NEXT STEP" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aHd-C4-IYK">
                                                 <rect key="frame" x="15" y="15" width="80" height="22"/>
@@ -382,8 +382,8 @@
                                             <constraint firstItem="7zh-to-V4X" firstAttribute="leading" secondItem="zA6-fp-C79" secondAttribute="leading" constant="10" id="xX8-U3-ZKb"/>
                                         </constraints>
                                     </view>
-                                    <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="LWS-q9-cg9">
-                                        <rect key="frame" x="429" y="498" width="141" height="52"/>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="LWS-q9-cg9">
+                                        <rect key="frame" x="428" y="498" width="142" height="52"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="NEXT STEP" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hk9-wL-GGF">
                                                 <rect key="frame" x="15" y="15" width="80" height="22"/>
@@ -522,8 +522,8 @@
                                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="circle_button" translatesAutoresizingMaskIntoConstraints="NO" id="HoD-Lt-1ZF">
-                                                <rect key="frame" x="104" y="15" width="22" height="22"/>
+                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="circle_button" translatesAutoresizingMaskIntoConstraints="NO" id="HoD-Lt-1ZF">
+                                                <rect key="frame" x="105" y="15" width="22" height="22"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" constant="22" id="BEl-au-Uae"/>
                                                     <constraint firstAttribute="width" secondItem="HoD-Lt-1ZF" secondAttribute="height" multiplier="1:1" id="r9x-ln-JRC"/>

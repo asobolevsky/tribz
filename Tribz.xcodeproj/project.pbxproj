@@ -428,6 +428,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)",
 				);
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Алексей Соболевский (9E5FJ56WP5)";
 				INFOPLIST_FILE = Tribz/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -445,6 +446,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)",
 				);
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Алексей Соболевский (9E5FJ56WP5)";
 				INFOPLIST_FILE = Tribz/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
