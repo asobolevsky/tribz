@@ -8,25 +8,155 @@
 
 import UIKit
 
-class SubmitViewController: UIViewController {
+class SubmitViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate, UITextFieldDelegate {
     
     @IBOutlet weak var contentView: UIView!
     @IBOutlet weak var nextStepViewView: UIView!
     
+    @IBOutlet weak var ageTextField: UITextField!
+    @IBOutlet weak var weightTextField: UITextField!
+    @IBOutlet weak var heightTextField: UITextField!
+    @IBOutlet weak var emailTextField: UITextField!
+    @IBOutlet weak var sleepTextField: UITextField!
+    
+    weak var activeTextField: UITextField?
+    
+    var agePickerViewTag: Int = 1
+    var agePickerData: NSArray!
+    var sleepPickerViewTag: Int = 2
+    var sleepPickerData: NSArray!
+
+    var userProgress: UserProgress!
+    var submit: Submit!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        let deviceId = UIDevice.currentDevice().identifierForVendor!.UUIDString
+        submit = Submit(deviceId: deviceId, red: userProgress.redResult, yellow: userProgress.yellowResult, green: userProgress.greenResult, blue: userProgress.blueResult)
+        
         // Do any additional setup after loading the view, typically from a nib.
         let image = UIImage(named: "screen_2")
         contentView.backgroundColor = UIColor(patternImage: image!)
         
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(SubmitViewController.nextStepPressed))
         nextStepViewView.addGestureRecognizer(tapGesture)
+        
+        agePickerData = (1...100).map { $0 }
+        setPickerViewAsInputViewForTextField(ageTextField, withPickerData: agePickerData, withPickerViewTag: agePickerViewTag)
+        
+        sleepPickerData = ["On my back", "On my belly"]
+        setPickerViewAsInputViewForTextField(sleepTextField, withPickerData: sleepPickerData, withPickerViewTag: sleepPickerViewTag)
     }
     
     func nextStepPressed() {
         let alert = UIAlertController(title: "Congratulations!", message: "Thank you for taking the test", preferredStyle: .Alert)
         alert.addAction(UIAlertAction(title: "Ok", style: .Default, handler: nil))
         presentViewController(alert, animated: true, completion: nil)
+        
+        submit.email = emailTextField.text
+        
+        if let age = ageTextField.text {
+            submit.age = Int(age)
+        }
+        if let weight = weightTextField.text {
+            submit.weight = Int(weight)
+        }
+        if let height = heightTextField.text {
+            submit.height = Int(height)
+        }
+        if let sleep = sleepTextField.text {
+            let idx = sleepPickerData.indexOfObject(sleep)
+            submit.sleep = Int(idx)
+        }
+        
+        let postUrl = NSURL(string: "http://tribz.site/api/saveResult")
+        let request = NSMutableURLRequest(URL: postUrl!)
+        request.HTTPMethod = "POST"
+        let postString = submit.preparedDateForSubmit()
+        request.HTTPBody = postString.dataUsingEncoding(NSUTF8StringEncoding)
+        let task = NSURLSession.sharedSession().dataTaskWithRequest(request) { data, response, error in
+            guard error == nil && data != nil else {                                                          // check for fundamental networking error
+                print("error=\(error)")
+                return
+            }
+            
+            if let httpStatus = response as? NSHTTPURLResponse where httpStatus.statusCode != 200 {           // check for http errors
+                print("statusCode should be 200, but is \(httpStatus.statusCode)")
+                print("response = \(response)")
+            }
+            
+            let responseString = String(data: data!, encoding: NSUTF8StringEncoding)
+            print("responseString = \(responseString)")
+        }
+        task.resume()
+    }
+    
+    func dismissInputView() {
+        activeTextField?.resignFirstResponder()
+        activeTextField = nil
+    }
+    
+    func setPickerViewAsInputViewForTextField(textfield: UITextField, withPickerData data: NSArray, withPickerViewTag tag: Int) {
+        let pickerView = UIPickerView()
+        pickerView.dataSource = self
+        pickerView.delegate = self
+        pickerView.tag = tag
+        
+        textfield.inputView = pickerView
+    }
+    
+    func buildAccessoryToolbarWithFrame(frame: CGRect) -> UIToolbar {
+        let toolBar = UIToolbar(frame: CGRectMake(0,0,CGRectGetWidth(frame),44))
+        toolBar.barStyle = .Default
+        let barButtonDone = UIBarButtonItem(title: "Done",
+                                            style: .Plain,
+                                            target: self,
+                                            action: #selector(dismissInputView))
+        toolBar.items = [barButtonDone]
+        return toolBar
+    }
+    
+    //MARK: - UITextFieldDelegate
+    func textFieldDidBeginEditing(textField: UITextField) {
+        activeTextField = textField
+        textField.inputAccessoryView = buildAccessoryToolbarWithFrame(textField.frame)
+    }
+    
+    //MARK: - UIPickerViewDataSource
+    // returns the number of 'columns' to display.
+    func numberOfComponentsInPickerView(picker: UIPickerView) -> Int {
+        return 1
+    }
+    
+    // returns the # of rows in each component..
+    func pickerView(pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        if pickerView.tag == agePickerViewTag {
+            return agePickerData.count
+        } else if pickerView.tag == sleepPickerViewTag {
+            return sleepPickerData.count
+        } else {
+            return 0
+        }
+    }
+    
+    //MARK: - UIPickerViewDelegate
+    func pickerView(pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        if pickerView.tag == agePickerViewTag {
+            return String(agePickerData[row])
+        } else if pickerView.tag == sleepPickerViewTag {
+            return String(sleepPickerData[row])
+        } else {
+            return nil
+        }
+    }
+
+    func pickerView(pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        if pickerView.tag == agePickerViewTag {
+            ageTextField.text = String(agePickerData[row])
+        } else if pickerView.tag == sleepPickerViewTag {
+            sleepTextField.text = String(sleepPickerData[row])
+        }
     }
 
 }

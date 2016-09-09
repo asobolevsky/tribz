@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		84A71F211D7DD77E00127646 /* Fabric.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84A71F1F1D7DD77E00127646 /* Fabric.framework */; };
 		84A71F221D7DD77E00127646 /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84A71F201D7DD77E00127646 /* Crashlytics.framework */; };
+		8B69DE331D82D9BA00F4744D /* Submit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B69DE321D82D9BA00F4744D /* Submit.swift */; };
 		8BA979F51D756E2400A48A51 /* AboutPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BA979F41D756E2400A48A51 /* AboutPageViewController.swift */; };
 		8BA979F71D756FDA00A48A51 /* QuestionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BA979F61D756FDA00A48A51 /* QuestionViewController.swift */; };
 		8BA979F91D75702E00A48A51 /* ResultPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BA979F81D75702E00A48A51 /* ResultPageViewController.swift */; };
@@ -41,6 +42,7 @@
 /* Begin PBXFileReference section */
 		84A71F1F1D7DD77E00127646 /* Fabric.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Fabric.framework; sourceTree = "<group>"; };
 		84A71F201D7DD77E00127646 /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = "<group>"; };
+		8B69DE321D82D9BA00F4744D /* Submit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Submit.swift; sourceTree = "<group>"; };
 		8BA979F41D756E2400A48A51 /* AboutPageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AboutPageViewController.swift; sourceTree = "<group>"; };
 		8BA979F61D756FDA00A48A51 /* QuestionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QuestionViewController.swift; sourceTree = "<group>"; };
 		8BA979F81D75702E00A48A51 /* ResultPageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResultPageViewController.swift; sourceTree = "<group>"; };
@@ -157,6 +159,7 @@
 				8BC123FD1D7D3BBC008EF8AB /* UserProgress.swift */,
 				8BC123FF1D7D417D008EF8AB /* ColorSet.swift */,
 				8BC124011D7D4BAC008EF8AB /* Result.swift */,
+				8B69DE321D82D9BA00F4744D /* Submit.swift */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -288,6 +291,7 @@
 				8BC124061D7DB8A8008EF8AB /* SubmitViewController.swift in Sources */,
 				8BC124001D7D417D008EF8AB /* ColorSet.swift in Sources */,
 				8BC123F41D7C60FD008EF8AB /* OptionTableViewCell.swift in Sources */,
+				8B69DE331D82D9BA00F4744D /* Submit.swift in Sources */,
 				8BA979F51D756E2400A48A51 /* AboutPageViewController.swift in Sources */,
 				8BA979F71D756FDA00A48A51 /* QuestionViewController.swift in Sources */,
 				8BB75F291D7006FB00FD2F75 /* AppDelegate.swift in Sources */,
