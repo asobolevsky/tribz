@@ -18,7 +18,7 @@ class QuestionViewController : UIViewController {
     
     var currentQuestionNumber: Int!
     var optionsArray: NSMutableArray!
-    var pointsArray = NSMutableArray(array: [4, 3, 2, 1])
+    var pointsArray: NSMutableArray!
     
     var userProgress: UserProgress!
     var question: Question!
@@ -37,16 +37,18 @@ class QuestionViewController : UIViewController {
         question = QuestionsManager.getQuestionAtIndex(currentQuestionNumber)!
         
         optionsArray = NSMutableArray(array: question.options)
+        pointsArray = NSMutableArray(array: question.optionPoints)
         
         // Do any additional setup after loading the view, typically from a nib.
         let image = UIImage(named: question.colorSet.background)
         contentView.backgroundColor = UIColor(patternImage: image!)
         
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(QuestionViewController.nextStepPressed))
-        nextStepViewView.addGestureRecognizer(tapGesture)
+        let nextTapGesture = UITapGestureRecognizer(target: self, action: #selector(QuestionViewController.nextStepPressed))
+        nextStepViewView.addGestureRecognizer(nextTapGesture)
         
         optionsTable.separatorColor = UIColor.clearColor()
         optionsTable.backgroundColor = UIColor.clearColor()
+        optionsTable.clipsToBounds = false
         optionsTable.registerNib(UINib(nibName: "OptionTableViewCell", bundle: nil), forCellReuseIdentifier: "optionCell")
         
         let panGesture = UIPanGestureRecognizer(target: self, action: #selector(QuestionViewController.panGestureRecognized))
@@ -71,11 +73,26 @@ class QuestionViewController : UIViewController {
         }
     }
     
+    @IBAction func prevStepPressed() {
+        // show prev question
+        if currentQuestionNumber > 0 {
+            let storyboard = UIStoryboard(name: "Main", bundle: nil)
+            let vc = storyboard.instantiateViewControllerWithIdentifier("QuestionViewController") as! QuestionViewController
+            
+            vc.currentQuestionNumber = currentQuestionNumber - 1
+            
+            let _ = userProgress.questionsResult.dropLast()
+            
+            vc.userProgress = userProgress
+            
+            self.presentViewController(vc, animated: true, completion: nil)
+        } else {
+            performSegueWithIdentifier("prevAboutPage", sender: nil)
+        }
+    }
+    
     func addPoints(userProgress: UserProgress) {
-        userProgress.redResult += pointsArray[0] as! Int
-        userProgress.yellowResult += pointsArray[1] as! Int
-        userProgress.greenResult += pointsArray[2] as! Int
-        userProgress.blueResult += pointsArray[3] as! Int
+        userProgress.questionsResult.append(pointsArray as AnyObject as! [Int])
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
@@ -87,55 +104,64 @@ class QuestionViewController : UIViewController {
         }
     }
     
-    var snapshot: UIView?                ///< A snapshot of the row user is moving.
+    var snapShot: UIView?                ///< A snapshot of the row user is moving.
     var sourceIndexPath: NSIndexPath?    ///< Initial index path, where gesture begins.
     
-    func panGestureRecognized(recognizer: UILongPressGestureRecognizer) {
-        let state = recognizer.state;
-        let location = recognizer.locationInView(optionsTable)
-        let indexPath = optionsTable.indexPathForRowAtPoint(location)
+    func panGestureRecognized(sender: UILongPressGestureRecognizer) {
+        let state = sender.state
+        let location = sender.locationInView(optionsTable)
         
-        switch (state) {
+        switch state {
         case .Began:
-            if let indexPath = indexPath {
-                sourceIndexPath = indexPath;
-                let cell = optionsTable.cellForRowAtIndexPath(indexPath)
-                
-                if let cell = cell {
-                    // Take a snapshot of the selected row using helper method.
-                    snapshot = self.customSnapshot(fromView: cell)
-                    
-                    // Add the snapshot as subview, centered at cell's center...
-                    var center = cell.center;
-                    snapshot!.center = center;
-                    snapshot!.alpha = 0.0;
-                    optionsTable.addSubview(snapshot!)
-                    
-                    UIView.animateWithDuration(0.25, animations: {
-                        
-                        // Offset for gesture location.
-                        center.y = location.y;
-                        self.snapshot!.center = center;
-                        self.snapshot!.transform = CGAffineTransformMakeScale(1.05, 1.05);
-                        self.snapshot!.alpha = 0.98;
-                        
-                        // Fade out.
-                        cell.alpha = 0.0;
-                        
-                        }, completion: { _ in
-                            
-                            cell.hidden = true
-                            
-                    })
-                }
+            guard let indexPath = optionsTable.indexPathForRowAtPoint(location) else {
+                restoreCellsState()
+                return
             }
+            
+            sourceIndexPath = indexPath
+            guard let cell = optionsTable.cellForRowAtIndexPath(indexPath) else {
+                restoreCellsState()
+                return
+            }
+            
+            //Take a snapshot of the selected row using helper method.
+            snapShot = customSnapShotFromView(cell)
+            
+            // Add the snapshot as subview, centered at cell's center...
+            var center = CGPoint(x: cell.center.x, y: cell.center.y)
+            snapShot?.center = center
+            snapShot?.alpha = 0.0
+            optionsTable.addSubview(snapShot!)
+            UIView.animateWithDuration(0.25, animations: {
+                // Offset for gesture location.
+                center.y = location.y
+                self.snapShot?.center = center
+                self.snapShot?.transform = CGAffineTransformMakeScale(1.05, 1.05)
+                self.snapShot?.alpha = 0.98
+                
+                cell.alpha = 0.0
+                }, completion: { _ in
+                    cell.hidden = true
+            })
         case .Changed:
-            var center = snapshot!.center
-            center.y = location.y;
-            snapshot!.center = center
+            guard let indexPath = optionsTable.indexPathForRowAtPoint(location) else {
+                restoreCellsState()
+                return
+            }
+            guard let snapShot = snapShot else {
+                restoreCellsState()
+                return
+            }
+            guard let sourceIndexPathTmp = sourceIndexPath else {
+                restoreCellsState()
+                return
+            }
+            var center = snapShot.center
+            center.y = location.y
+            snapShot.center = center
             
             // Is destination valid and is it different from source?
-            if let indexPath = indexPath where !indexPath.isEqual(sourceIndexPath) {
+            if !indexPath.isEqual(sourceIndexPathTmp) {
                 
                 // ... update data source.
                 optionsArray.exchangeObjectAtIndex(indexPath.row, withObjectAtIndex:sourceIndexPath!.row)
@@ -147,47 +173,56 @@ class QuestionViewController : UIViewController {
                 // ... and update source so it is in sync with UI changes.
                 sourceIndexPath = indexPath;
             }
-            break;
+            
         default:
-            // Clean up.
-            let cell = optionsTable.cellForRowAtIndexPath(sourceIndexPath!)!
+            guard let sourceIndexPathTmp = sourceIndexPath else {
+                restoreCellsState()
+                return
+            }
+            guard let cell = optionsTable.cellForRowAtIndexPath(sourceIndexPathTmp) else {
+                restoreCellsState()
+                return
+            }
             cell.hidden = false
             cell.alpha = 0.0
-            UIView.animateWithDuration(0.25, animations: {
-                
-                self.snapshot!.center = cell.center
-                self.snapshot!.transform = CGAffineTransformIdentity
-                self.snapshot!.alpha = 0.0
-                
-                // Undo fade out.
-                cell.alpha = 1.0
-                
-                }, completion: { _ in
             
-                self.sourceIndexPath = nil
-                self.snapshot!.removeFromSuperview()
-                self.snapshot = nil
+            UIView.animateWithDuration(0.25, animations: {
+                self.snapShot?.center = cell.center
+                self.snapShot?.transform = CGAffineTransformIdentity
+                self.snapShot?.alpha = 0.0
                 
-                })
+                cell.alpha = 1.0
+                }, completion: { _ in
+                    self.sourceIndexPath = nil
+                    self.snapShot?.removeFromSuperview()
+                    self.snapShot = nil
+                    self.restoreCellsState()
+            })
         }
     }
     
-    func customSnapshot(fromView inputView: UIView) -> UIView {
+    func customSnapShotFromView(inputView: UIView) -> UIImageView{
         // Make an image from the input view.
         UIGraphicsBeginImageContextWithOptions(inputView.bounds.size, false, 0)
         inputView.layer.renderInContext(UIGraphicsGetCurrentContext()!)
         let image = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
         
-        // Create an image view.
         let snapshot = UIImageView(image: image)
         snapshot.layer.masksToBounds = false
         snapshot.layer.cornerRadius = 0.0
-        snapshot.layer.shadowOffset = CGSizeMake(-5.0, 0.0)
+        snapshot.layer.shadowOffset = CGSize(width: -5.0, height: 0.0)
         snapshot.layer.shadowRadius = 5.0
         snapshot.layer.shadowOpacity = 0.4
         
         return snapshot
+    }
+    
+    func restoreCellsState() {
+        for cell in optionsTable.visibleCells {
+            cell.alpha = 1.0
+            cell.hidden = false
+        }
     }
     
 }

@@ -30,7 +30,7 @@ class Submit {
         self.blue = blue
     }
     
-    func preparedDateForSubmit() -> String {
+    func preparedDataForSubmit() -> String {
         var result = "deviceId=\(deviceId)&red=\(red)&yellow=\(yellow)&green=\(green)&blue=\(blue)"
         
         if let email = email {

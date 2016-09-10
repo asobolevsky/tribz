@@ -12,6 +12,7 @@ class ResultPageViewController: UIViewController {
     
     @IBOutlet weak var contentView: UIView!
     @IBOutlet weak var titleLabel: UILabel!
+    @IBOutlet weak var detailedResultLabel: UILabel!
     @IBOutlet weak var resultTextView: UITextView!
     @IBOutlet weak var resultBodyCont: UIView!
     @IBOutlet weak var nextStepViewView: UIView!
@@ -20,6 +21,10 @@ class ResultPageViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        let colorsPercetageArray = userProgress.getColorsPercentage()
+        detailedResultLabel.text = "Your result is: red - \(colorsPercetageArray[0])%, yellow - \(colorsPercetageArray[1])%," +
+                                " green - \(colorsPercetageArray[2])%, blue - \(colorsPercetageArray[3])%."
 
         let primaryColor = userProgress.getPrimaryColor()
         titleLabel.text = "YOUR PRIMARY COLOR IS \(primaryColor.rawValue.uppercaseString)"
