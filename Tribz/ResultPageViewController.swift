@@ -22,6 +22,9 @@ class ResultPageViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        userProgress = UserProgress()
+        userProgress.questionsResult = retrievePoints()
+        
         let colorsPercetageArray = userProgress.getColorsPercentage()
         detailedResultLabel.text = "Your result is: red - \(colorsPercetageArray[0])%, yellow - \(colorsPercetageArray[1])%," +
                                 " green - \(colorsPercetageArray[2])%, blue - \(colorsPercetageArray[3])%."
@@ -56,8 +59,31 @@ class ResultPageViewController: UIViewController {
         
     }
     
+    func retrievePoints() -> [[Int]] {
+        let userDefaults = NSUserDefaults.standardUserDefaults()
+        if let allPoints = userDefaults.valueForKey("points") {
+            return allPoints as! [[Int]]
+        }
+        
+        return []
+    }
+    
+    func dropLastPoints() {
+        var points = retrievePoints()
+        let userDefaults = NSUserDefaults.standardUserDefaults()
+        let _ = points.removeLast()
+        userDefaults.setValue(points, forKey: "points")
+        userDefaults.synchronize() // don't forget this!!!!
+    }
+
+    
     func nextStepPressed() {
         performSegueWithIdentifier("showSubmitPage", sender: nil)
+    }
+    
+    @IBAction func prevStepPressed() {
+        dropLastPoints()
+        self.navigationController?.popViewControllerAnimated(true)
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {

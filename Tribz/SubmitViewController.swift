@@ -143,6 +143,10 @@ class SubmitViewController: UIViewController, UIPickerViewDataSource, UIPickerVi
         return isValid
     }
     
+    @IBAction func prevStepPressed() {
+        self.navigationController?.popViewControllerAnimated(true)
+    }
+    
     func showAlert(title title: String, message: String) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .Alert)
         alert.addAction(UIAlertAction(title: "Ok", style: .Default, handler: nil))

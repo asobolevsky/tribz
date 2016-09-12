@@ -12,10 +12,5 @@ class OptionTableViewCell: UITableViewCell {
 
     @IBOutlet weak var optionContentView: UIView!
     @IBOutlet weak var optionLabel: UILabel!
-    @IBOutlet weak var dragView: UIView!
-    
-    override func awakeFromNib() {
-        dragView.transform = CGAffineTransformMakeRotation(CGFloat(M_PI_4))
-    }
     
 }

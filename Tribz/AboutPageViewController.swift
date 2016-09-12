@@ -27,4 +27,8 @@ class AboutPageViewController : UIViewController {
         performSegueWithIdentifier("showQuestionPage", sender: nil)
     }
     
+    @IBAction func prevStepPressed() {
+        self.navigationController?.popViewControllerAnimated(true)
+    }
+    
 }

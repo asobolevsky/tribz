@@ -22,6 +22,8 @@ class MainPageViewController: UIViewController {
         
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(MainPageViewController.startTestPressed))
         startTestView.addGestureRecognizer(tapGesture)
+        
+        self.navigationController?.navigationBarHidden = true
     }
 
     override func didReceiveMemoryWarning() {

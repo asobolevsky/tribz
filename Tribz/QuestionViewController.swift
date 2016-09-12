@@ -20,15 +20,10 @@ class QuestionViewController : UIViewController {
     var optionsArray: NSMutableArray!
     var pointsArray: NSMutableArray!
     
-    var userProgress: UserProgress!
     var question: Question!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        if userProgress == nil {
-            userProgress = UserProgress()
-        }
         
         if currentQuestionNumber == nil {
             currentQuestionNumber = 0
@@ -63,11 +58,9 @@ class QuestionViewController : UIViewController {
             
             vc.currentQuestionNumber = currentQuestionNumber + 1
             
-            addPoints(userProgress)
+            addPoints()
             
-            vc.userProgress = userProgress
-            
-            self.presentViewController(vc, animated: true, completion: nil)
+            self.navigationController?.pushViewController(vc, animated: true)
         } else {
             performSegueWithIdentifier("showResultPage", sender: nil)
         }
@@ -81,26 +74,47 @@ class QuestionViewController : UIViewController {
             
             vc.currentQuestionNumber = currentQuestionNumber - 1
             
-            let _ = userProgress.questionsResult.dropLast()
-            
-            vc.userProgress = userProgress
-            
-            self.presentViewController(vc, animated: true, completion: nil)
+            dropLastPoints()
+        }
+        
+        self.navigationController?.popViewControllerAnimated(true)
+    }
+    
+    func addPoints() {
+        var points: [[Int]]
+        if let allPoints = retrievePoints() {
+            points = allPoints
+            points.append(pointsArray as AnyObject as! [Int])
         } else {
-            performSegueWithIdentifier("prevAboutPage", sender: nil)
+            points = [pointsArray as AnyObject as! [Int]]
+        }
+        
+        let userDefaults = NSUserDefaults.standardUserDefaults()
+        userDefaults.setValue(points, forKey: "points")
+        userDefaults.synchronize() // don't forget this!!!!
+    }
+    
+    func dropLastPoints() {
+        if var points = retrievePoints() {
+            let userDefaults = NSUserDefaults.standardUserDefaults()
+            let _ = points.removeLast()
+            userDefaults.setValue(points, forKey: "points")
+            userDefaults.synchronize() // don't forget this!!!!
         }
     }
     
-    func addPoints(userProgress: UserProgress) {
-        userProgress.questionsResult.append(pointsArray as AnyObject as! [Int])
+    func retrievePoints() -> [[Int]]? {
+        let userDefaults = NSUserDefaults.standardUserDefaults()
+        if let allPoints = userDefaults.valueForKey("points") {
+            return allPoints as? [[Int]]
+        }
+        
+        return nil
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "showResultPage" {
-            let vc = segue.destinationViewController as! ResultPageViewController
-            
-            addPoints(userProgress)
-            vc.userProgress = userProgress
+            addPoints()
         }
     }
     
@@ -243,7 +257,6 @@ extension QuestionViewController : UITableViewDataSource {
         
         cell!.backgroundColor = UIColor.clearColor()
         cell!.optionContentView.backgroundColor = question.colorSet.mainColor
-        cell!.dragView.backgroundColor = question.colorSet.accessoryColor
         cell!.optionLabel.text = optionsArray[indexPath.row] as? String
         cell!.showsReorderControl = false
         
