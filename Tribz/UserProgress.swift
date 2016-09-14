@@ -68,6 +68,50 @@ class UserProgress: NSObject {
         } else {
             return .Blue
         }
+    }
+    
+    func getSecondaryColor() -> PrimaryColor {
+        let maxResult = min(max(redResult, yellowResult), max(greenResult, blueResult))
+        
+        if maxResult == redResult {
+            return .Red
+        } else if maxResult == yellowResult {
+            return .Yellow
+        } else if maxResult == greenResult {
+            return .Green
+        } else {
+            return .Blue
+        }
+        
+    }
+    
+    func getRecessiveColor() -> PrimaryColor {
+        let maxResult = max(min(redResult, yellowResult), min(greenResult, blueResult))
+        
+        if maxResult == redResult {
+            return .Red
+        } else if maxResult == yellowResult {
+            return .Yellow
+        } else if maxResult == greenResult {
+            return .Green
+        } else {
+            return .Blue
+        }
+        
+    }
+    
+    func getOppositeColor() -> PrimaryColor {
+        let maxResult = min(redResult, yellowResult, greenResult, blueResult)
+        
+        if maxResult == redResult {
+            return .Red
+        } else if maxResult == yellowResult {
+            return .Yellow
+        } else if maxResult == greenResult {
+            return .Green
+        } else {
+            return .Blue
+        }
         
     }
     

@@ -1,49 +1,42 @@
 //
-//  QuestionViewController.swift
+//  HowToAnswerViewController.swift
 //  Tribz
 //
-//  Created by Алексей Соболевский on 30.08.16.
+//  Created by Алексей Соболевский on 14.09.16.
 //  Copyright © 2016 Le poisson du Mars. All rights reserved.
 //
 
 import UIKit
 
-class QuestionViewController : UIViewController {
+class HowToAnswerViewController: UIViewController {
     
     @IBOutlet weak var contentView: UIView!
     @IBOutlet weak var nextStepViewView: UIView!
     @IBOutlet weak var backViewView: UIView!
     @IBOutlet weak var optionsTable: UITableView!
     
-    @IBOutlet weak var tableHeightConstraint: NSLayoutConstraint!
+    @IBOutlet weak var fingerImageView: UIImageView!
+    @IBOutlet weak var fingerImageStartConstraint: NSLayoutConstraint!
+    @IBOutlet weak var fingerImageFinishConstraint: NSLayoutConstraint!
     
-    var currentQuestionNumber: Int!
-    var optionsArray: NSMutableArray!
-    var pointsArray: NSMutableArray!
-    
-    var question: Question!
-    
+    var optionsArray: [String]!
+    var colorSet: ColorSet!
+
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        if currentQuestionNumber == nil {
-            currentQuestionNumber = 0
-        }
+        colorSet = ColorSet.getColorSet(0)!
         
-        question = QuestionsManager.getQuestionAtIndex(currentQuestionNumber)!
-        
-        optionsArray = NSMutableArray(array: question.options)
-        pointsArray = NSMutableArray(array: question.optionPoints)
-        
-        // Do any additional setup after loading the view, typically from a nib.
-        let image = UIImage(named: question.colorSet.background)
+        let image = UIImage(named: colorSet.background)
         contentView.backgroundColor = UIColor(patternImage: image!)
         
-        let nextTapGesture = UITapGestureRecognizer(target: self, action: #selector(QuestionViewController.nextStepPressed))
-        nextStepViewView.addGestureRecognizer(nextTapGesture)
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(HowToAnswerViewController.nextStepPressed))
+        nextStepViewView.addGestureRecognizer(tapGesture)
         
-        let backTapGesture = UITapGestureRecognizer(target: self, action: #selector(QuestionViewController.backPressed))
+        let backTapGesture = UITapGestureRecognizer(target: self, action: #selector(HowToAnswerViewController.backPressed))
         backViewView.addGestureRecognizer(backTapGesture)
+        
+        optionsArray = ["Option A", "Option B", "Option C", "Option D"]
         
         optionsTable.separatorColor = UIColor.clearColor()
         optionsTable.backgroundColor = UIColor.clearColor()
@@ -52,79 +45,25 @@ class QuestionViewController : UIViewController {
         
         let panGesture = UIPanGestureRecognizer(target: self, action: #selector(QuestionViewController.panGestureRecognized))
         optionsTable.addGestureRecognizer(panGesture)
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
         
-    }
-    
-    func nextStepPressed() {
-        if currentQuestionNumber < QuestionsManager.getQuestions().count - 1 {
-            let storyboard = UIStoryboard(name: "Main", bundle: nil)
-            let vc = storyboard.instantiateViewControllerWithIdentifier("QuestionViewController") as! QuestionViewController
-            
-            vc.currentQuestionNumber = currentQuestionNumber + 1
-            
-            addPoints()
-            
-            self.navigationController?.pushViewController(vc, animated: true)
-        } else {
-            performSegueWithIdentifier("showSquareResultPage", sender: nil)
-        }
-    }
-    
-    func backPressed() {
-        // show prev question
-        if currentQuestionNumber > 0 {
-            let storyboard = UIStoryboard(name: "Main", bundle: nil)
-            let vc = storyboard.instantiateViewControllerWithIdentifier("QuestionViewController") as! QuestionViewController
-            
-            vc.currentQuestionNumber = currentQuestionNumber - 1
-            
-            dropLastPoints()
-        }
-        
-        self.navigationController?.popViewControllerAnimated(true)
-    }
-    
-    func addPoints() {
-        var points: [[Int]]
-        if let allPoints = retrievePoints() {
-            points = allPoints
-            points.append(pointsArray as AnyObject as! [Int])
-        } else {
-            points = [pointsArray as AnyObject as! [Int]]
-        }
-        
-        let userDefaults = NSUserDefaults.standardUserDefaults()
-        userDefaults.setValue(points, forKey: "points")
-        userDefaults.synchronize() // don't forget this!!!!
-    }
-    
-    func dropLastPoints() {
-        if var points = retrievePoints() {
-            let userDefaults = NSUserDefaults.standardUserDefaults()
-            let _ = points.removeLast()
-            userDefaults.setValue(points, forKey: "points")
-            userDefaults.synchronize() // don't forget this!!!!
-        }
-    }
-    
-    func retrievePoints() -> [[Int]]? {
-        let userDefaults = NSUserDefaults.standardUserDefaults()
-        if let allPoints = userDefaults.valueForKey("points") {
-            return allPoints as? [[Int]]
-        }
-        
-        return nil
-    }
-    
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        if segue.identifier == "showSquareResultPage" {
-            addPoints()
-        }
+        UIView.animateWithDuration(3, delay: 1, options: [.Repeat, .CurveEaseOut], animations: {
+            //                self.fingerImageStartConstraint.active = false
+            //                self.fingerImageFinishConstraint.active = true
+            self.fingerImageView.transform = CGAffineTransformMakeTranslation(0, 140)
+            }, completion: { finished in
+                if !finished {
+                    return
+                }
+        })
+
     }
     
     var snapShot: UIView?                ///< A snapshot of the row user is moving.
     var sourceIndexPath: NSIndexPath?    ///< Initial index path, where gesture begins.
-    
     func panGestureRecognized(sender: UILongPressGestureRecognizer) {
         let state = sender.state
         let location = sender.locationInView(optionsTable)
@@ -141,6 +80,9 @@ class QuestionViewController : UIViewController {
                 restoreCellsState()
                 return
             }
+            
+            fingerImageView.layer.removeAllAnimations()
+            fingerImageView.hidden = true
             
             //Take a snapshot of the selected row using helper method.
             snapShot = customSnapShotFromView(cell)
@@ -180,11 +122,6 @@ class QuestionViewController : UIViewController {
             
             // Is destination valid and is it different from source?
             if !indexPath.isEqual(sourceIndexPathTmp) {
-                
-                // ... update data source.
-                optionsArray.exchangeObjectAtIndex(indexPath.row, withObjectAtIndex:sourceIndexPath!.row)
-                pointsArray.exchangeObjectAtIndex(indexPath.row, withObjectAtIndex:sourceIndexPath!.row)
-                
                 // ... move the rows.
                 optionsTable.moveRowAtIndexPath(sourceIndexPath!, toIndexPath:indexPath)
                 
@@ -242,12 +179,25 @@ class QuestionViewController : UIViewController {
             cell.hidden = false
         }
     }
+
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
+    }
     
+    func nextStepPressed() {
+        performSegueWithIdentifier("showQuestionPage", sender: nil)
+    }
+    
+    func backPressed() {
+        self.navigationController?.popViewControllerAnimated(true)
+    }
+
 }
 
 //MARK: - UITableViewDataSource
-extension QuestionViewController : UITableViewDataSource {
-
+extension HowToAnswerViewController : UITableViewDataSource {
+    
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return optionsArray.count
     }
@@ -260,8 +210,8 @@ extension QuestionViewController : UITableViewDataSource {
         }
         
         cell!.backgroundColor = UIColor.clearColor()
-        cell!.optionContentView.backgroundColor = question.colorSet.mainColor
-        cell!.optionLabel.text = optionsArray[indexPath.row] as? String
+        cell!.optionContentView.backgroundColor = colorSet.mainColor
+        cell!.optionLabel.text = optionsArray[indexPath.row]
         cell!.showsReorderControl = false
         
         return cell!

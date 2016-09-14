@@ -20,6 +20,7 @@ class SubmitViewController: UIViewController, UIPickerViewDataSource, UIPickerVi
     
     @IBOutlet weak var contentView: UIView!
     @IBOutlet weak var nextStepViewView: UIView!
+    @IBOutlet weak var backViewView: UIView!
     
     @IBOutlet weak var ageTextField: UITextField!
     @IBOutlet weak var weightTextField: UITextField!
@@ -53,6 +54,9 @@ class SubmitViewController: UIViewController, UIPickerViewDataSource, UIPickerVi
         
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(SubmitViewController.nextStepPressed))
         nextStepViewView.addGestureRecognizer(tapGesture)
+        
+        let backTapGesture = UITapGestureRecognizer(target: self, action: #selector(SubmitViewController.backPressed))
+        backViewView.addGestureRecognizer(backTapGesture)
         
         agePickerData = (1...100).map { $0 }
         setPickerViewAsInputViewForTextField(ageTextField, withPickerData: agePickerData, withPickerViewTag: agePickerViewTag)
@@ -143,7 +147,7 @@ class SubmitViewController: UIViewController, UIPickerViewDataSource, UIPickerVi
         return isValid
     }
     
-    @IBAction func prevStepPressed() {
+    func backPressed() {
         self.navigationController?.popViewControllerAnimated(true)
     }
     

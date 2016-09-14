@@ -12,6 +12,7 @@ class AboutPageViewController : UIViewController {
     
     @IBOutlet weak var contentView: UIView!
     @IBOutlet weak var nextStepViewView: UIView!
+    @IBOutlet weak var backViewView: UIView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -21,13 +22,16 @@ class AboutPageViewController : UIViewController {
         
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(AboutPageViewController.nextStepPressed))
         nextStepViewView.addGestureRecognizer(tapGesture)
+        
+        let backTapGesture = UITapGestureRecognizer(target: self, action: #selector(AboutPageViewController.backPressed))
+        backViewView.addGestureRecognizer(backTapGesture)
     }
     
     func nextStepPressed() {
-        performSegueWithIdentifier("showQuestionPage", sender: nil)
+        performSegueWithIdentifier("showHowToAnswerPage", sender: nil)
     }
     
-    @IBAction func prevStepPressed() {
+    func backPressed() {
         self.navigationController?.popViewControllerAnimated(true)
     }
     

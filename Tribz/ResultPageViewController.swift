@@ -12,10 +12,10 @@ class ResultPageViewController: UIViewController {
     
     @IBOutlet weak var contentView: UIView!
     @IBOutlet weak var titleLabel: UILabel!
-    @IBOutlet weak var detailedResultLabel: UILabel!
     @IBOutlet weak var resultTextView: UITextView!
     @IBOutlet weak var resultBodyCont: UIView!
     @IBOutlet weak var nextStepViewView: UIView!
+    @IBOutlet weak var backViewView: UIView!
     
     var userProgress: UserProgress!
 
@@ -24,10 +24,6 @@ class ResultPageViewController: UIViewController {
         
         userProgress = UserProgress()
         userProgress.questionsResult = retrievePoints()
-        
-        let colorsPercetageArray = userProgress.getColorsPercentage()
-        detailedResultLabel.text = "Your result is: red - \(colorsPercetageArray[0])%, yellow - \(colorsPercetageArray[1])%," +
-                                " green - \(colorsPercetageArray[2])%, blue - \(colorsPercetageArray[3])%."
 
         let primaryColor = userProgress.getPrimaryColor()
         titleLabel.text = "YOUR PRIMARY COLOR IS \(primaryColor.rawValue.uppercaseString)"
@@ -41,6 +37,9 @@ class ResultPageViewController: UIViewController {
         
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(ResultPageViewController.nextStepPressed))
         nextStepViewView.addGestureRecognizer(tapGesture)
+        
+        let backTapGesture = UITapGestureRecognizer(target: self, action: #selector(ResultPageViewController.backPressed))
+        backViewView.addGestureRecognizer(backTapGesture)
         
         var backgroundColor: UIColor
         switch primaryColor {
@@ -81,7 +80,7 @@ class ResultPageViewController: UIViewController {
         performSegueWithIdentifier("showSubmitPage", sender: nil)
     }
     
-    @IBAction func prevStepPressed() {
+    func backPressed() {
         dropLastPoints()
         self.navigationController?.popViewControllerAnimated(true)
     }
