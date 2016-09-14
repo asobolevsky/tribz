@@ -14,8 +14,12 @@
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Kip-l6-8fB">
                     <rect key="frame" x="0.0" y="5" width="600" height="79"/>
                     <subviews>
+                        <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="uwU-Xj-fmQ">
+                            <rect key="frame" x="0.0" y="0.0" width="600" height="79"/>
+                            <color key="backgroundColor" white="0.0" alpha="0.29999999999999999" colorSpace="calibratedWhite"/>
+                        </view>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0oC-uu-usx">
-                            <rect key="frame" x="8" y="30.5" width="584" height="18"/>
+                            <rect key="frame" x="8" y="30" width="584" height="18"/>
                             <fontDescription key="fontDescription" type="system" pointSize="15"/>
                             <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <nil key="highlightedColor"/>
@@ -23,9 +27,13 @@
                     </subviews>
                     <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                     <constraints>
+                        <constraint firstItem="uwU-Xj-fmQ" firstAttribute="width" secondItem="Kip-l6-8fB" secondAttribute="width" id="3uC-si-TYg"/>
                         <constraint firstAttribute="trailing" secondItem="0oC-uu-usx" secondAttribute="trailing" constant="8" id="4n6-be-Pop"/>
                         <constraint firstItem="0oC-uu-usx" firstAttribute="leading" secondItem="Kip-l6-8fB" secondAttribute="leading" constant="8" id="8Na-ly-JFA"/>
+                        <constraint firstItem="uwU-Xj-fmQ" firstAttribute="leading" secondItem="Kip-l6-8fB" secondAttribute="leading" id="Caq-8e-ng7"/>
+                        <constraint firstItem="uwU-Xj-fmQ" firstAttribute="top" secondItem="Kip-l6-8fB" secondAttribute="top" id="WL9-yq-UKe"/>
                         <constraint firstItem="0oC-uu-usx" firstAttribute="centerY" secondItem="Kip-l6-8fB" secondAttribute="centerY" id="X7a-By-sbx"/>
+                        <constraint firstItem="uwU-Xj-fmQ" firstAttribute="height" secondItem="Kip-l6-8fB" secondAttribute="height" id="lVD-W0-pMT"/>
                     </constraints>
                 </view>
             </subviews>
@@ -39,6 +47,7 @@
             <connections>
                 <outlet property="optionContentView" destination="Kip-l6-8fB" id="oJ6-Bd-hdq"/>
                 <outlet property="optionLabel" destination="0oC-uu-usx" id="Toz-IV-q1I"/>
+                <outlet property="veilView" destination="uwU-Xj-fmQ" id="jBW-5q-m9Q"/>
             </connections>
             <point key="canvasLocation" x="265" y="124.5"/>
         </view>

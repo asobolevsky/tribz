@@ -56,8 +56,12 @@ class UserProgress: NSObject {
         questionsResult = []
     }
     
+    func getSortedResults() -> [Int] {
+        return [redResult, yellowResult, greenResult, blueResult].sort(>)
+    }
+    
     func getPrimaryColor() -> PrimaryColor {
-        let maxResult = max(redResult, yellowResult, greenResult, blueResult)
+        let maxResult = getSortedResults()[0]
         
         if maxResult == redResult {
             return .Red
@@ -71,7 +75,7 @@ class UserProgress: NSObject {
     }
     
     func getSecondaryColor() -> PrimaryColor {
-        let maxResult = min(max(redResult, yellowResult), max(greenResult, blueResult))
+        let maxResult = getSortedResults()[1]
         
         if maxResult == redResult {
             return .Red
@@ -86,7 +90,7 @@ class UserProgress: NSObject {
     }
     
     func getRecessiveColor() -> PrimaryColor {
-        let maxResult = max(min(redResult, yellowResult), min(greenResult, blueResult))
+        let maxResult = getSortedResults()[2]
         
         if maxResult == redResult {
             return .Red
@@ -101,7 +105,7 @@ class UserProgress: NSObject {
     }
     
     func getOppositeColor() -> PrimaryColor {
-        let maxResult = min(redResult, yellowResult, greenResult, blueResult)
+        let maxResult = getSortedResults()[3]
         
         if maxResult == redResult {
             return .Red

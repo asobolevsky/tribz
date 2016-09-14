@@ -77,7 +77,7 @@ class ResultPageViewController: UIViewController {
 
     
     func nextStepPressed() {
-        performSegueWithIdentifier("showSubmitPage", sender: nil)
+        performSegueWithIdentifier("showUserInfoQuestionPage", sender: nil)
     }
     
     func backPressed() {

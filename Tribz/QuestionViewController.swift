@@ -18,8 +18,8 @@ class QuestionViewController : UIViewController {
     @IBOutlet weak var tableHeightConstraint: NSLayoutConstraint!
     
     var currentQuestionNumber: Int!
-    var optionsArray: NSMutableArray!
-    var pointsArray: NSMutableArray!
+    var optionsArray = [String]()
+    var pointsArray = [Int]()
     
     var question: Question!
     
@@ -32,8 +32,13 @@ class QuestionViewController : UIViewController {
         
         question = QuestionsManager.getQuestionAtIndex(currentQuestionNumber)!
         
-        optionsArray = NSMutableArray(array: question.options)
-        pointsArray = NSMutableArray(array: question.optionPoints)
+        let maxIndex = question.options.count - 1
+        let shuffledIndices = (0...maxIndex).shuffle()
+        
+        for idx in shuffledIndices {
+            optionsArray.append(question.options[idx])
+            pointsArray.append(question.optionPoints[idx])
+        }
         
         // Do any additional setup after loading the view, typically from a nib.
         let image = UIImage(named: question.colorSet.background)
@@ -182,8 +187,8 @@ class QuestionViewController : UIViewController {
             if !indexPath.isEqual(sourceIndexPathTmp) {
                 
                 // ... update data source.
-                optionsArray.exchangeObjectAtIndex(indexPath.row, withObjectAtIndex:sourceIndexPath!.row)
-                pointsArray.exchangeObjectAtIndex(indexPath.row, withObjectAtIndex:sourceIndexPath!.row)
+                swap(&optionsArray[indexPath.row], &optionsArray[sourceIndexPath!.row])
+                swap(&pointsArray[indexPath.row], &pointsArray[sourceIndexPath!.row])
                 
                 // ... move the rows.
                 optionsTable.moveRowAtIndexPath(sourceIndexPath!, toIndexPath:indexPath)
@@ -261,7 +266,7 @@ extension QuestionViewController : UITableViewDataSource {
         
         cell!.backgroundColor = UIColor.clearColor()
         cell!.optionContentView.backgroundColor = question.colorSet.mainColor
-        cell!.optionLabel.text = optionsArray[indexPath.row] as? String
+        cell!.optionLabel.text = optionsArray[indexPath.row]
         cell!.showsReorderControl = false
         
         return cell!

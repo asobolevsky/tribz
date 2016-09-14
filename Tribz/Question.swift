@@ -11,11 +11,11 @@ import UIKit
 class Question: NSObject {
 
     let question: String
-    let options: NSArray
-    let optionPoints: NSArray
+    let options: [String]
+    let optionPoints: [Int]
     let colorSet: ColorSet
     
-    required init(question: String, options: NSArray, optionPoints: NSArray, colorSet: ColorSet) {
+    required init(question: String, options: [String], optionPoints: [Int], colorSet: ColorSet) {
         self.question = question
         self.options = options
         self.optionPoints = optionPoints

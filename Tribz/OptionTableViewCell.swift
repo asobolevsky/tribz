@@ -12,5 +12,10 @@ class OptionTableViewCell: UITableViewCell {
 
     @IBOutlet weak var optionContentView: UIView!
     @IBOutlet weak var optionLabel: UILabel!
+    @IBOutlet weak var veilView: UIView!
+    
+    override func setSelected(selected: Bool, animated: Bool) {
+        veilView.hidden = !selected
+    }
     
 }

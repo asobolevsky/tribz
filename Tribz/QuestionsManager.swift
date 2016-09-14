@@ -11,6 +11,8 @@ import UIKit
 class QuestionsManager: NSObject {
     static let sharedInstance = QuestionsManager()
     
+    // options and points = [red, yellow, green, blue]
+    
     private static let defaultQuestion = "HOW WELL DO THESE DESCRIBE YOU?"
     
     private static let defaultPoints = [4, 3, 2, 1]
@@ -52,22 +54,78 @@ class QuestionsManager: NSObject {
             options: ["Winning is important to me", "Interacting with a lot of people energizes me", "I like to seek consensus, focussing on what can be agreed", "My natural inclination is to analyze things logically"],
             optionPoints: defaultPoints,
             colorSet: ColorSet.getColorSet(0)!),
-//        Question(question: "Readjust the following shapes in descending order from the one you like most to the one you like the least.",
-//            options: ["△", "⦚", "○", "☐"],
-//            optionPoints: [0, 0, 0, 0],
-//            colorSet: ColorSet.getColorSet(1)!)
+        Question(question: "Readjust the following shapes in descending order from the one you like most to the one you like the least.",
+            options: ["△", "☆", "○", "☐"],
+            optionPoints: defaultPoints,
+            colorSet: ColorSet.getColorSet(1)!)
     ]
     
-    static func getQuestions() -> NSArray {
-        return questions
+    private static let userInfoQuestions = [
+        Question(question: "Your age",
+            options: ["Under 25", "25-39", "40-55", "Over 55"],
+            optionPoints: [],
+            colorSet: ColorSet.getColorSet(0)!),
+        Question(question: "Your height (m)",
+            options: ["Under 1.55", "1.56-1.65", "1.66-1.75", "Over 1.75"],
+            optionPoints: [],
+            colorSet: ColorSet.getColorSet(1)!),
+        Question(question: "Sleeping position",
+            options: ["On my back", "On my belly", "On my side"],
+            optionPoints: [],
+            colorSet: ColorSet.getColorSet(2)!)
+    ]
+
+    
+    private static var randomizedQuestions: [Question]? = nil
+    
+    static func getQuestions() -> [Question] {
+        
+        if let randomizedQuestions = randomizedQuestions {
+            return randomizedQuestions
+        }
+        
+        randomizedQuestions = questions.shuffle()
+        
+        return randomizedQuestions!
     }
     
     static func getQuestionAtIndex(index: Int) -> Question? {
-        guard index <= questions.count else {
+        guard index <= getQuestions().count else {
             return nil
         }
         
-        return questions[index]
+        return getQuestions()[index]
     }
     
+    static func getUserInfoQuestionAtIndex(index: Int) -> Question? {
+        guard index <= userInfoQuestions.count else {
+            return nil
+        }
+        
+        return userInfoQuestions[index]
+    }
+    
+}
+
+extension CollectionType {
+    /// Return a copy of `self` with its elements shuffled
+    func shuffle() -> [Generator.Element] {
+        var list = Array(self)
+        list.shuffleInPlace()
+        return list
+    }
+}
+
+extension MutableCollectionType where Index == Int {
+    /// Shuffle the elements of `self` in-place.
+    mutating func shuffleInPlace() {
+        // empty and single-element collections don't shuffle
+        if count < 2 { return }
+        
+        for i in 0..<count - 1 {
+            let j = Int(arc4random_uniform(UInt32(count - i))) + i
+            guard i != j else { continue }
+            swap(&self[i], &self[j])
+        }
+    }
 }
