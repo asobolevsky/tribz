@@ -12,6 +12,7 @@
 		8B03FEE81D88224400B58659 /* SquareResultPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B03FEE71D88224400B58659 /* SquareResultPageViewController.swift */; };
 		8B1D41A31D8933DA0064737F /* HowToAnswerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B1D41A21D8933DA0064737F /* HowToAnswerViewController.swift */; };
 		8B1D41A51D8966E80064737F /* UserInfoQuestionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B1D41A41D8966E80064737F /* UserInfoQuestionViewController.swift */; };
+		8B1D41A71D89E0920064737F /* SharePageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B1D41A61D89E0920064737F /* SharePageViewController.swift */; };
 		8B69DE331D82D9BA00F4744D /* Submit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B69DE321D82D9BA00F4744D /* Submit.swift */; };
 		8BA979F51D756E2400A48A51 /* AboutPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BA979F41D756E2400A48A51 /* AboutPageViewController.swift */; };
 		8BA979F71D756FDA00A48A51 /* QuestionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BA979F61D756FDA00A48A51 /* QuestionViewController.swift */; };
@@ -48,6 +49,7 @@
 		8B03FEE71D88224400B58659 /* SquareResultPageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SquareResultPageViewController.swift; sourceTree = "<group>"; };
 		8B1D41A21D8933DA0064737F /* HowToAnswerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HowToAnswerViewController.swift; sourceTree = "<group>"; };
 		8B1D41A41D8966E80064737F /* UserInfoQuestionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserInfoQuestionViewController.swift; sourceTree = "<group>"; };
+		8B1D41A61D89E0920064737F /* SharePageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SharePageViewController.swift; sourceTree = "<group>"; };
 		8B69DE321D82D9BA00F4744D /* Submit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Submit.swift; sourceTree = "<group>"; };
 		8BA979F41D756E2400A48A51 /* AboutPageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AboutPageViewController.swift; sourceTree = "<group>"; };
 		8BA979F61D756FDA00A48A51 /* QuestionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QuestionViewController.swift; sourceTree = "<group>"; };
@@ -103,6 +105,7 @@
 				8BA979F81D75702E00A48A51 /* ResultPageViewController.swift */,
 				8B03FEE71D88224400B58659 /* SquareResultPageViewController.swift */,
 				8BC124051D7DB8A8008EF8AB /* SubmitViewController.swift */,
+				8B1D41A61D89E0920064737F /* SharePageViewController.swift */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -305,6 +308,7 @@
 				8B69DE331D82D9BA00F4744D /* Submit.swift in Sources */,
 				8BA979F51D756E2400A48A51 /* AboutPageViewController.swift in Sources */,
 				8BA979F71D756FDA00A48A51 /* QuestionViewController.swift in Sources */,
+				8B1D41A71D89E0920064737F /* SharePageViewController.swift in Sources */,
 				8BB75F291D7006FB00FD2F75 /* AppDelegate.swift in Sources */,
 				8BC123FE1D7D3BBC008EF8AB /* UserProgress.swift in Sources */,
 				8B1D41A31D8933DA0064737F /* HowToAnswerViewController.swift in Sources */,

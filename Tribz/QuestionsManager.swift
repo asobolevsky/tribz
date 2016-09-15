@@ -8,6 +8,14 @@
 
 import UIKit
 
+enum UserInfoQuestionType: Int {
+    case Age
+    case Height
+    case Weight
+    case Sleep
+    case InvalidType
+}
+
 class QuestionsManager: NSObject {
     static let sharedInstance = QuestionsManager()
     
@@ -60,13 +68,18 @@ class QuestionsManager: NSObject {
             colorSet: ColorSet.getColorSet(1)!)
     ]
     
+    // correlates with UserInfoQuestionTypes enum
     private static let userInfoQuestions = [
         Question(question: "Your age",
             options: ["Under 25", "25-39", "40-55", "Over 55"],
             optionPoints: [],
             colorSet: ColorSet.getColorSet(0)!),
         Question(question: "Your height (m)",
-            options: ["Under 1.55", "1.56-1.65", "1.66-1.75", "Over 1.75"],
+            options: ["Under 1.55", "1.55-1.65", "1.66-1.75", "Over 1.75"],
+            optionPoints: [],
+            colorSet: ColorSet.getColorSet(1)!),
+        Question(question: "Your weight (kg)",
+            options: ["Under 60", "60-70", "71-80", "Over 80"],
             optionPoints: [],
             colorSet: ColorSet.getColorSet(1)!),
         Question(question: "Sleeping position",
@@ -95,6 +108,10 @@ class QuestionsManager: NSObject {
         }
         
         return getQuestions()[index]
+    }
+    
+    static func getUserInfoQuestions() -> [Question] {
+        return userInfoQuestions
     }
     
     static func getUserInfoQuestionAtIndex(index: Int) -> Question? {

@@ -18,7 +18,6 @@ class UserInfoQuestionViewController: UIViewController {
     
     var currentQuestionNumber: Int!
     var question: Question!
-
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -27,10 +26,10 @@ class UserInfoQuestionViewController: UIViewController {
             currentQuestionNumber = 0
         }
         
-        question = QuestionsManager.getQuestionAtIndex(currentQuestionNumber)!
+        question = QuestionsManager.getUserInfoQuestionAtIndex(currentQuestionNumber)!
         
         // Do any additional setup after loading the view, typically from a nib.
-        let image = UIImage(named: "screen_2")
+        let image = UIImage(named: question.colorSet.background)
         contentView.backgroundColor = UIColor(patternImage: image!)
         
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(UserInfoQuestionViewController.nextStepPressed))
@@ -38,10 +37,17 @@ class UserInfoQuestionViewController: UIViewController {
         
         let backTapGesture = UITapGestureRecognizer(target: self, action: #selector(UserInfoQuestionViewController.backPressed))
         backViewView.addGestureRecognizer(backTapGesture)
+        
+        questionTitleLabel.text = question.question
+        
+        optionsTable.separatorColor = UIColor.clearColor()
+        optionsTable.backgroundColor = UIColor.clearColor()
+        optionsTable.clipsToBounds = false
+        optionsTable.registerNib(UINib(nibName: "OptionTableViewCell", bundle: nil), forCellReuseIdentifier: "optionCell")
     }
     
     func nextStepPressed() {
-        if currentQuestionNumber < QuestionsManager.getQuestions().count - 1 {
+        if currentQuestionNumber < QuestionsManager.getUserInfoQuestions().count - 1 {
             let storyboard = UIStoryboard(name: "Main", bundle: nil)
             let vc = storyboard.instantiateViewControllerWithIdentifier("UserInfoQuestionViewController") as! UserInfoQuestionViewController
             
@@ -51,6 +57,23 @@ class UserInfoQuestionViewController: UIViewController {
         } else {
             performSegueWithIdentifier("showSubmitPage", sender: nil)
         }
+        
+        if let indexPath = optionsTable.indexPathForSelectedRow {
+            let questionType = UserInfoQuestionType(rawValue: currentQuestionNumber) ?? .InvalidType
+            
+            switch questionType {
+            case .Age:
+                addUserInfo("age", value: indexPath.row)
+            case .Height:
+                addUserInfo("height", value: indexPath.row)
+            case .Weight:
+                addUserInfo("weight", value: indexPath.row)
+            case .Sleep:
+                addUserInfo("sleep", value: indexPath.row)
+            case .InvalidType:
+                print("Invalid question")
+            }
+        }
     }
     
     func backPressed() {
@@ -59,12 +82,57 @@ class UserInfoQuestionViewController: UIViewController {
             let storyboard = UIStoryboard(name: "Main", bundle: nil)
             let vc = storyboard.instantiateViewControllerWithIdentifier("UserInfoQuestionViewController") as! UserInfoQuestionViewController
             
+            let questionType = UserInfoQuestionType(rawValue: currentQuestionNumber) ?? .InvalidType
+            
+            switch questionType {
+            case .Age:
+                dropUserInfo("age")
+            case .Height:
+                dropUserInfo("height")
+            case .Weight:
+                dropUserInfo("weight")
+            case .Sleep:
+                dropUserInfo("sleep")
+            case .InvalidType:
+                print("Invalid question")
+            }
+            
             vc.currentQuestionNumber = currentQuestionNumber - 1
         }
         
         self.navigationController?.popViewControllerAnimated(true)
     }
-
+    
+    func addUserInfo(title: String, value: Int) {
+        var allUserInfo = [String: Int]()
+        if let userInfo = retrieveUserInfo() {
+            allUserInfo = userInfo
+        }
+        allUserInfo[title] = value
+        
+        let userDefaults = NSUserDefaults.standardUserDefaults()
+        userDefaults.setValue(allUserInfo, forKey: "userInfo")
+        userDefaults.synchronize() // don't forget this!!!!
+    }
+    
+    func dropUserInfo(title: String) {
+        if var userInfo = retrieveUserInfo() {
+            let userDefaults = NSUserDefaults.standardUserDefaults()
+            let _ = userInfo.removeValueForKey(title)
+            userDefaults.setValue(userInfo, forKey: "userInfo")
+            userDefaults.synchronize() // don't forget this!!!!
+        }
+    }
+    
+    func retrieveUserInfo() -> [String: Int]? {
+        let userDefaults = NSUserDefaults.standardUserDefaults()
+        if let allUserInfo = userDefaults.valueForKey("userInfo") {
+            return allUserInfo as? [String: Int]
+        }
+        
+        return nil
+    }
+    
 }
 
 //MARK: - UITableViewDataSource

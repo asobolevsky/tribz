@@ -18,4 +18,9 @@ class OptionTableViewCell: UITableViewCell {
         veilView.hidden = !selected
     }
     
+    override func setHighlighted(highlighted: Bool, animated: Bool) {
+        veilView.hidden = !highlighted
+    }
+
+    
 }

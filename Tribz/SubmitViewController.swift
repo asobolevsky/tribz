@@ -22,11 +22,7 @@ class SubmitViewController: UIViewController, UIPickerViewDataSource, UIPickerVi
     @IBOutlet weak var nextStepViewView: UIView!
     @IBOutlet weak var backViewView: UIView!
     
-    @IBOutlet weak var ageTextField: UITextField!
-    @IBOutlet weak var weightTextField: UITextField!
-    @IBOutlet weak var heightTextField: UITextField!
     @IBOutlet weak var emailTextField: UITextField!
-    @IBOutlet weak var sleepTextField: UITextField!
     
     weak var activeTextField: UITextField?
     
@@ -41,12 +37,36 @@ class SubmitViewController: UIViewController, UIPickerViewDataSource, UIPickerVi
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        userProgress = UserProgress()
+        userProgress.questionsResult = retrievePoints()
+        
         let deviceId = UIDevice.currentDevice().identifierForVendor!.UUIDString
         let colorPercents = userProgress.getColorsPercentage()
         submit = Submit(deviceId: deviceId, red: colorPercents[0] as! Int,
                         yellow: colorPercents[1] as! Int,
                         green: colorPercents[2] as! Int,
                         blue: colorPercents[3] as! Int)
+        
+        let userDefaults = NSUserDefaults.standardUserDefaults()
+        if let allUserInfo = userDefaults.valueForKey("userInfo") as? [String: Int] {
+            
+            if let age = allUserInfo["age"] {
+                submit.age = age
+            }
+            
+            if let height = allUserInfo["height"] {
+                submit.height = height
+            }
+            
+            if let weight = allUserInfo["weight"] {
+                submit.weight = weight
+            }
+            
+            if let sleep = allUserInfo["sleep"] {
+                submit.sleep = sleep
+            }
+            
+        }
         
         // Do any additional setup after loading the view, typically from a nib.
         let image = UIImage(named: "screen_2")
@@ -57,37 +77,17 @@ class SubmitViewController: UIViewController, UIPickerViewDataSource, UIPickerVi
         
         let backTapGesture = UITapGestureRecognizer(target: self, action: #selector(SubmitViewController.backPressed))
         backViewView.addGestureRecognizer(backTapGesture)
-        
-        agePickerData = (1...100).map { $0 }
-        setPickerViewAsInputViewForTextField(ageTextField, withPickerData: agePickerData, withPickerViewTag: agePickerViewTag)
-        
-        sleepPickerData = ["On my back", "On my belly"]
-        setPickerViewAsInputViewForTextField(sleepTextField, withPickerData: sleepPickerData, withPickerViewTag: sleepPickerViewTag)
+    
     }
     
     func nextStepPressed() {
         
-        if !validateFields() {
-            showAlert(title: "Error", message: "Enter valid email")
-            return
-        }
-        
-        showAlert(title: "Congratulations!", message: "Thank you for taking the test")
-        
-        submit.email = emailTextField.text
-        
-        if let age = ageTextField.text {
-            submit.age = Int(age)
-        }
-        if let weight = weightTextField.text {
-            submit.weight = Int(weight)
-        }
-        if let height = heightTextField.text {
-            submit.height = Int(height)
-        }
-        if let sleep = sleepTextField.text {
-            let idx = sleepPickerData.indexOfObject(sleep)
-            submit.sleep = Int(idx)
+        if let email = emailTextField.text where email.characters.count > 0 {
+            if !validateFields() {
+                showAlert(title: "Error", message: "Enter valid email")
+                return
+            }
+            submit.email = email
         }
         
         let postUrl = NSURL(string: "http://tribz.site/api/saveResult")
@@ -110,6 +110,13 @@ class SubmitViewController: UIViewController, UIPickerViewDataSource, UIPickerVi
             print("responseString = \(responseString)")
         }
         task.resume()
+        
+        performSegueWithIdentifier("showSharePage", sender: nil)
+    }
+    
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if segue.identifier == "showSharePage" {
+        }
     }
     
     func dismissInputView() {
@@ -147,6 +154,15 @@ class SubmitViewController: UIViewController, UIPickerViewDataSource, UIPickerVi
         return isValid
     }
     
+    func retrievePoints() -> [[Int]] {
+        let userDefaults = NSUserDefaults.standardUserDefaults()
+        if let allPoints = userDefaults.valueForKey("points") {
+            return allPoints as! [[Int]]
+        }
+        
+        return []
+    }
+    
     func backPressed() {
         self.navigationController?.popViewControllerAnimated(true)
     }
@@ -177,32 +193,6 @@ class SubmitViewController: UIViewController, UIPickerViewDataSource, UIPickerVi
             return sleepPickerData.count
         } else {
             return 0
-        }
-    }
-    
-    //MARK: - UIPickerViewDelegate
-    func pickerView(pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        if pickerView.tag == agePickerViewTag {
-            return String(agePickerData[row])
-        } else if pickerView.tag == sleepPickerViewTag {
-            return String(sleepPickerData[row])
-        } else {
-            return nil
-        }
-    }
-
-    func pickerView(pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        if pickerView.tag == agePickerViewTag {
-            ageTextField.text = String(agePickerData[row])
-        } else if pickerView.tag == sleepPickerViewTag {
-            sleepTextField.text = String(sleepPickerData[row])
-        }
-    }
-    
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        if segue.identifier == "prevResultPage" {
-            let vc = segue.destinationViewController as! ResultPageViewController
-            vc.userProgress = userProgress
         }
     }
 

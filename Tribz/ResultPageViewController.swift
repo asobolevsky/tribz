@@ -84,11 +84,4 @@ class ResultPageViewController: UIViewController {
         dropLastPoints()
         self.navigationController?.popViewControllerAnimated(true)
     }
-    
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        if segue.identifier == "showSubmitPage" {
-            let vc = segue.destinationViewController as! SubmitViewController
-            vc.userProgress = userProgress
-        }
-    }
 }

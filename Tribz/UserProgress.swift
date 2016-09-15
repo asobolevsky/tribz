@@ -11,6 +11,8 @@ import UIKit
 class UserProgress: NSObject {
     
     var questionsResult: [[Int]]
+    var sortedResults: [Int]?
+    var colorsPreference: [PrimaryColor]
 
     var redResult: Int {
         var res = 0
@@ -54,69 +56,46 @@ class UserProgress: NSObject {
     
     override init() {
         questionsResult = []
+        colorsPreference = []
     }
     
     func getSortedResults() -> [Int] {
-        return [redResult, yellowResult, greenResult, blueResult].sort(>)
+        if let results = sortedResults {
+            return results
+        }
+        
+        sortedResults = [redResult, yellowResult, greenResult, blueResult].sort(>)
+        return sortedResults!
     }
     
     func getPrimaryColor() -> PrimaryColor {
-        let maxResult = getSortedResults()[0]
-        
-        if maxResult == redResult {
-            return .Red
-        } else if maxResult == yellowResult {
-            return .Yellow
-        } else if maxResult == greenResult {
-            return .Green
-        } else {
-            return .Blue
-        }
-    }
+        let result = getSortedResults()[0]
+        return getColorForResult(result)    }
     
     func getSecondaryColor() -> PrimaryColor {
-        let maxResult = getSortedResults()[1]
-        
-        if maxResult == redResult {
-            return .Red
-        } else if maxResult == yellowResult {
-            return .Yellow
-        } else if maxResult == greenResult {
-            return .Green
-        } else {
-            return .Blue
-        }
-        
-    }
+        let result = getSortedResults()[1]
+        return getColorForResult(result)    }
     
     func getRecessiveColor() -> PrimaryColor {
-        let maxResult = getSortedResults()[2]
-        
-        if maxResult == redResult {
-            return .Red
-        } else if maxResult == yellowResult {
-            return .Yellow
-        } else if maxResult == greenResult {
-            return .Green
-        } else {
-            return .Blue
-        }
-        
+        let result = getSortedResults()[2]
+        return getColorForResult(result)
     }
     
     func getOppositeColor() -> PrimaryColor {
-        let maxResult = getSortedResults()[3]
-        
-        if maxResult == redResult {
+        let result = getSortedResults()[3]
+        return getColorForResult(result)
+    }
+    
+    func getColorForResult(result: Int) -> PrimaryColor {
+        if result == redResult && !colorsPreference.contains(.Red) {
             return .Red
-        } else if maxResult == yellowResult {
+        } else if result == yellowResult && !colorsPreference.contains(.Yellow) {
             return .Yellow
-        } else if maxResult == greenResult {
+        } else if result == greenResult && !colorsPreference.contains(.Green) {
             return .Green
         } else {
             return .Blue
         }
-        
     }
     
     func calculatePointsTotal() -> Int {
@@ -143,4 +122,10 @@ class UserProgress: NSObject {
         return percentageArray
     }
     
+}
+
+extension Array {
+    func contains<T where T : Equatable>(obj: T) -> Bool {
+        return self.filter({$0 as? T == obj}).count > 0
+    }
 }

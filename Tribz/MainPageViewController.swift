@@ -24,6 +24,10 @@ class MainPageViewController: UIViewController {
         startTestView.addGestureRecognizer(tapGesture)
         
         self.navigationController?.navigationBarHidden = true
+        
+        let userDefaults = NSUserDefaults.standardUserDefaults()
+        userDefaults.removeObjectForKey("points")
+        userDefaults.removeObjectForKey("userInfo")
     }
 
     override func didReceiveMemoryWarning() {
