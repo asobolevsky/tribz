@@ -111,11 +111,11 @@ class SubmitViewController: UIViewController, UIPickerViewDataSource, UIPickerVi
         }
         task.resume()
         
-        performSegueWithIdentifier("showSharePage", sender: nil)
+        performSegueWithIdentifier("showSquarePage", sender: nil)
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        if segue.identifier == "showSharePage" {
+        if segue.identifier == "showSquarePage" {
         }
     }
     

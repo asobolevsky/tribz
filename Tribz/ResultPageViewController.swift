@@ -17,15 +17,11 @@ class ResultPageViewController: UIViewController {
     @IBOutlet weak var nextStepViewView: UIView!
     @IBOutlet weak var backViewView: UIView!
     
-    var userProgress: UserProgress!
+    var primaryColor: PrimaryColor!
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        userProgress = UserProgress()
-        userProgress.questionsResult = retrievePoints()
-
-        let primaryColor = userProgress.getPrimaryColor()
         titleLabel.text = "YOUR PRIMARY COLOR IS \(primaryColor.rawValue.uppercaseString)"
         
         let resultText = Result.getResultForPrimaryColor(primaryColor)
@@ -42,7 +38,7 @@ class ResultPageViewController: UIViewController {
         backViewView.addGestureRecognizer(backTapGesture)
         
         var backgroundColor: UIColor
-        switch primaryColor {
+        switch primaryColor as PrimaryColor {
         case .Red:
             backgroundColor = UIColor(red: 0.713725490196078, green: 0.0, blue: 0.0509803921568627, alpha: 0.95)
         case .Yellow:
@@ -77,7 +73,7 @@ class ResultPageViewController: UIViewController {
 
     
     func nextStepPressed() {
-        performSegueWithIdentifier("showUserInfoQuestionPage", sender: nil)
+        performSegueWithIdentifier("showSharePage", sender: nil)
     }
     
     func backPressed() {

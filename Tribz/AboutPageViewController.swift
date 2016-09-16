@@ -17,7 +17,7 @@ class AboutPageViewController : UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-        let image = UIImage(named: "screen_2")
+        let image = UIImage(named: "screen_3")
         contentView.backgroundColor = UIColor(patternImage: image!)
         
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(AboutPageViewController.nextStepPressed))

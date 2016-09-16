@@ -20,12 +20,13 @@ class SquareResultPageViewController: UIViewController {
     @IBOutlet weak var recessiveSquareView: UIView!
     @IBOutlet weak var oppositeSquareView: UIView!
     
-    @IBOutlet weak var primarySquareLabel: UILabel!
-    @IBOutlet weak var secondarySquareLabel: UILabel!
-    @IBOutlet weak var recessiveSquareLabel: UILabel!
-    @IBOutlet weak var oppositeSquareLabel: UILabel!
+    @IBOutlet weak var primarySquareButton: UIButton!
+    @IBOutlet weak var secondarySquareButton: UIButton!
+    @IBOutlet weak var recessiveSquareButton: UIButton!
+    @IBOutlet weak var oppositeSquareButton: UIButton!
     
     var userProgress: UserProgress!
+    var selectedColor: PrimaryColor!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -39,10 +40,10 @@ class SquareResultPageViewController: UIViewController {
         let image = UIImage(named: "screen_8")
         contentView.backgroundColor = UIColor(patternImage: image!)
         
-        oppositeSquareLabel.text = "\(sortedColorsPercentageArray[0]) %"
-        recessiveSquareLabel.text = "\(sortedColorsPercentageArray[1]) %"
-        secondarySquareLabel.text = "\(sortedColorsPercentageArray[2]) %"
-        primarySquareLabel.text = "\(sortedColorsPercentageArray[3]) %"
+        oppositeSquareButton.titleLabel!.text = "\(sortedColorsPercentageArray[0]) %"
+        recessiveSquareButton.titleLabel!.text = "\(sortedColorsPercentageArray[1]) %"
+        secondarySquareButton.titleLabel!.text = "\(sortedColorsPercentageArray[2]) %"
+        primarySquareButton.titleLabel!.text = "\(sortedColorsPercentageArray[3]) %"
         
         setSquareViewColor(primarySquareView, color: userProgress.getPrimaryColor())
         setSquareViewColor(secondarySquareView, color: userProgress.getSecondaryColor())
@@ -84,8 +85,36 @@ class SquareResultPageViewController: UIViewController {
         return []
     }
     
-    func nextStepPressed() {
+    @IBAction func showDetailResultForPrimaryColor() {
+        showDetailedResultPageWithColor(userProgress.getPrimaryColor())
+    }
+    
+    @IBAction func showDetailResultForSecondaryColor() {
+        showDetailedResultPageWithColor(userProgress.getSecondaryColor())
+    }
+    
+    @IBAction func showDetailResultForRecessiveColor() {
+        showDetailedResultPageWithColor(userProgress.getRecessiveColor())
+    }
+    
+    @IBAction func showDetailResultForOppositeColor() {
+        showDetailedResultPageWithColor(userProgress.getOppositeColor())
+    }
+    
+    func showDetailedResultPageWithColor(color: PrimaryColor) {
+        selectedColor = color
         performSegueWithIdentifier("showResultPage", sender: nil)
+    }
+    
+    func nextStepPressed() {
+        performSegueWithIdentifier("showSharePage", sender: nil)
+    }
+    
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if segue.identifier == "showResultPage" {
+            let vc = segue.destinationViewController as! ResultPageViewController
+            vc.primaryColor = selectedColor
+        }
     }
     
     func backPressed() {

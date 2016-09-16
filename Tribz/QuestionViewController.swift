@@ -71,7 +71,7 @@ class QuestionViewController : UIViewController {
             
             self.navigationController?.pushViewController(vc, animated: true)
         } else {
-            performSegueWithIdentifier("showSquareResultPage", sender: nil)
+            performSegueWithIdentifier("showUserInfoQuestionPage", sender: nil)
         }
     }
     
@@ -122,7 +122,7 @@ class QuestionViewController : UIViewController {
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        if segue.identifier == "showSquareResultPage" {
+        if segue.identifier == "showUserInfoQuestionPage" {
             addPoints()
         }
     }

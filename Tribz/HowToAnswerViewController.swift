@@ -25,7 +25,7 @@ class HowToAnswerViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        colorSet = ColorSet.getColorSet(0)!
+        colorSet = ColorSet.getColorSet(2)!
         
         let image = UIImage(named: colorSet.background)
         contentView.backgroundColor = UIColor(patternImage: image!)
