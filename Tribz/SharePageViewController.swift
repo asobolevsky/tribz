@@ -38,6 +38,10 @@ class SharePageViewController: UIViewController {
         itunesLink = "https://itunes.apple.com/app/1151347866".stringByAddingPercentEncodingWithAllowedCharacters(.URLQueryAllowedCharacterSet())
     }
     
+    override func viewWillAppear(animated: Bool) {
+        userProgress.colorsPreference = []
+    }
+    
     func retrievePoints() -> [[Int]] {
         let userDefaults = NSUserDefaults.standardUserDefaults()
         if let allPoints = userDefaults.valueForKey("points") {

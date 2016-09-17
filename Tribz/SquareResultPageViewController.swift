@@ -28,6 +28,11 @@ class SquareResultPageViewController: UIViewController {
     var userProgress: UserProgress!
     var selectedColor: PrimaryColor!
     var colorPriority: ColorPriority!
+    
+    var primaryColor: PrimaryColor!
+    var secondaryColor: PrimaryColor!
+    var recessiveColor: PrimaryColor!
+    var oppositeColor: PrimaryColor!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -46,10 +51,15 @@ class SquareResultPageViewController: UIViewController {
         secondarySquareButton.setTitle("\(sortedColorsPercentageArray[2]) %", forState: .Normal)
         primarySquareButton.setTitle("\(sortedColorsPercentageArray[3]) %", forState: .Normal)
         
-        setSquareViewColor(primarySquareView, color: userProgress.getPrimaryColor())
-        setSquareViewColor(secondarySquareView, color: userProgress.getSecondaryColor())
-        setSquareViewColor(recessiveSquareView, color: userProgress.getRecessiveColor())
-        setSquareViewColor(oppositeSquareView, color: userProgress.getOppositeColor())
+        primaryColor = userProgress.getPrimaryColor()
+        secondaryColor = userProgress.getSecondaryColor()
+        recessiveColor = userProgress.getRecessiveColor()
+        oppositeColor = userProgress.getOppositeColor()
+        
+        setSquareViewColor(primarySquareView, color: primaryColor)
+        setSquareViewColor(secondarySquareView, color: secondaryColor)
+        setSquareViewColor(recessiveSquareView, color: recessiveColor)
+        setSquareViewColor(oppositeSquareView, color: oppositeColor)
         
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(SquareResultPageViewController.nextStepPressed))
         nextStepViewView.addGestureRecognizer(tapGesture)
@@ -87,19 +97,19 @@ class SquareResultPageViewController: UIViewController {
     }
     
     @IBAction func showDetailResultForPrimaryColor() {
-        showDetailedResultPageWithColor(userProgress.getPrimaryColor(), priority: .Primary)
+        showDetailedResultPageWithColor(primaryColor, priority: .Primary)
     }
     
     @IBAction func showDetailResultForSecondaryColor() {
-        showDetailedResultPageWithColor(userProgress.getSecondaryColor(), priority: .Secondary)
+        showDetailedResultPageWithColor(secondaryColor, priority: .Secondary)
     }
     
     @IBAction func showDetailResultForRecessiveColor() {
-        showDetailedResultPageWithColor(userProgress.getRecessiveColor(), priority: .Recessive)
+        showDetailedResultPageWithColor(recessiveColor, priority: .Recessive)
     }
     
     @IBAction func showDetailResultForOppositeColor() {
-        showDetailedResultPageWithColor(userProgress.getOppositeColor(), priority: .Opposite)
+        showDetailedResultPageWithColor(oppositeColor, priority: .Opposite)
     }
     
     func showDetailedResultPageWithColor(color: PrimaryColor, priority: ColorPriority) {

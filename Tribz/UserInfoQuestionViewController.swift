@@ -98,9 +98,28 @@ class UserInfoQuestionViewController: UIViewController {
             }
             
             vc.currentQuestionNumber = currentQuestionNumber - 1
+        } else if currentQuestionNumber == 0 {
+            dropLastPoints()
         }
         
         self.navigationController?.popViewControllerAnimated(true)
+    }
+    
+    func retrievePoints() -> [[Int]] {
+        let userDefaults = NSUserDefaults.standardUserDefaults()
+        if let allPoints = userDefaults.valueForKey("points") {
+            return allPoints as! [[Int]]
+        }
+        
+        return []
+    }
+    
+    func dropLastPoints() {
+        var points = retrievePoints()
+        let userDefaults = NSUserDefaults.standardUserDefaults()
+        let _ = points.removeLast()
+        userDefaults.setValue(points, forKey: "points")
+        userDefaults.synchronize() // don't forget this!!!!
     }
     
     func addUserInfo(title: String, value: Int) {

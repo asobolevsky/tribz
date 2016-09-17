@@ -53,6 +53,8 @@ class ResultPageViewController: UIViewController {
         resultBodyCont.backgroundColor = backgroundColor
         nextStepViewView.backgroundColor = backgroundColor
         
+        resultTextView.contentOffset = CGPointZero
+        
     }
     
     func retrievePoints() -> [[Int]] {
@@ -63,14 +65,6 @@ class ResultPageViewController: UIViewController {
         
         return []
     }
-    
-    func dropLastPoints() {
-        var points = retrievePoints()
-        let userDefaults = NSUserDefaults.standardUserDefaults()
-        let _ = points.removeLast()
-        userDefaults.setValue(points, forKey: "points")
-        userDefaults.synchronize() // don't forget this!!!!
-    }
 
     
     func nextStepPressed() {
@@ -78,7 +72,6 @@ class ResultPageViewController: UIViewController {
     }
     
     func backPressed() {
-        dropLastPoints()
         self.navigationController?.popViewControllerAnimated(true)
     }
 }
