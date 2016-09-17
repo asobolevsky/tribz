@@ -59,7 +59,7 @@ class UserProgress: NSObject {
         colorsPreference = []
     }
     
-    func getSortedResults() -> [Int] {
+    func getSortedResults() -> [Int] {        
         if let results = sortedResults {
             return results
         }
@@ -87,15 +87,18 @@ class UserProgress: NSObject {
     }
     
     func getColorForResult(result: Int) -> PrimaryColor {
+        var color: PrimaryColor
         if result == redResult && !colorsPreference.contains(.Red) {
-            return .Red
+            color = .Red
         } else if result == yellowResult && !colorsPreference.contains(.Yellow) {
-            return .Yellow
+            color = .Yellow
         } else if result == greenResult && !colorsPreference.contains(.Green) {
-            return .Green
+            color = .Green
         } else {
-            return .Blue
+            color = .Blue
         }
+        colorsPreference.append(color)
+        return color
     }
     
     func calculatePointsTotal() -> Int {

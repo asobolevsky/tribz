@@ -18,11 +18,12 @@ class ResultPageViewController: UIViewController {
     @IBOutlet weak var backViewView: UIView!
     
     var primaryColor: PrimaryColor!
-
+    var colorPriority: ColorPriority!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        titleLabel.text = "YOUR PRIMARY COLOR IS \(primaryColor.rawValue.uppercaseString)"
+        titleLabel.text = "YOUR \(colorPriority.rawValue.uppercaseString) COLOR IS \(primaryColor.rawValue.uppercaseString)"
         
         let resultText = Result.getResultForPrimaryColor(primaryColor)
         resultTextView.text = resultText

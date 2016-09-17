@@ -27,6 +27,7 @@ class SquareResultPageViewController: UIViewController {
     
     var userProgress: UserProgress!
     var selectedColor: PrimaryColor!
+    var colorPriority: ColorPriority!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -40,10 +41,10 @@ class SquareResultPageViewController: UIViewController {
         let image = UIImage(named: "screen_8")
         contentView.backgroundColor = UIColor(patternImage: image!)
         
-        oppositeSquareButton.titleLabel!.text = "\(sortedColorsPercentageArray[0]) %"
-        recessiveSquareButton.titleLabel!.text = "\(sortedColorsPercentageArray[1]) %"
-        secondarySquareButton.titleLabel!.text = "\(sortedColorsPercentageArray[2]) %"
-        primarySquareButton.titleLabel!.text = "\(sortedColorsPercentageArray[3]) %"
+        oppositeSquareButton.setTitle("\(sortedColorsPercentageArray[0]) %", forState: .Normal)
+        recessiveSquareButton.setTitle("\(sortedColorsPercentageArray[1]) %", forState: .Normal)
+        secondarySquareButton.setTitle("\(sortedColorsPercentageArray[2]) %", forState: .Normal)
+        primarySquareButton.setTitle("\(sortedColorsPercentageArray[3]) %", forState: .Normal)
         
         setSquareViewColor(primarySquareView, color: userProgress.getPrimaryColor())
         setSquareViewColor(secondarySquareView, color: userProgress.getSecondaryColor())
@@ -86,23 +87,24 @@ class SquareResultPageViewController: UIViewController {
     }
     
     @IBAction func showDetailResultForPrimaryColor() {
-        showDetailedResultPageWithColor(userProgress.getPrimaryColor())
+        showDetailedResultPageWithColor(userProgress.getPrimaryColor(), priority: .Primary)
     }
     
     @IBAction func showDetailResultForSecondaryColor() {
-        showDetailedResultPageWithColor(userProgress.getSecondaryColor())
+        showDetailedResultPageWithColor(userProgress.getSecondaryColor(), priority: .Secondary)
     }
     
     @IBAction func showDetailResultForRecessiveColor() {
-        showDetailedResultPageWithColor(userProgress.getRecessiveColor())
+        showDetailedResultPageWithColor(userProgress.getRecessiveColor(), priority: .Recessive)
     }
     
     @IBAction func showDetailResultForOppositeColor() {
-        showDetailedResultPageWithColor(userProgress.getOppositeColor())
+        showDetailedResultPageWithColor(userProgress.getOppositeColor(), priority: .Opposite)
     }
     
-    func showDetailedResultPageWithColor(color: PrimaryColor) {
+    func showDetailedResultPageWithColor(color: PrimaryColor, priority: ColorPriority) {
         selectedColor = color
+        colorPriority = priority
         performSegueWithIdentifier("showResultPage", sender: nil)
     }
     
@@ -114,6 +116,7 @@ class SquareResultPageViewController: UIViewController {
         if segue.identifier == "showResultPage" {
             let vc = segue.destinationViewController as! ResultPageViewController
             vc.primaryColor = selectedColor
+            vc.colorPriority = colorPriority
         }
     }
     

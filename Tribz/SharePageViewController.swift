@@ -11,6 +11,7 @@ import UIKit
 class SharePageViewController: UIViewController {
     
     @IBOutlet weak var contentView: UIView!
+    @IBOutlet weak var backViewView: UIView!
     @IBOutlet weak var mainPageViewView: UIView!
     
     var shareText: String!
@@ -25,6 +26,9 @@ class SharePageViewController: UIViewController {
         
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(SharePageViewController.mainPagePressed))
         mainPageViewView.addGestureRecognizer(tapGesture)
+        
+        let backTapGesture = UITapGestureRecognizer(target: self, action: #selector(SharePageViewController.backPressed))
+        backViewView.addGestureRecognizer(backTapGesture)
         
         userProgress = UserProgress()
         userProgress.questionsResult = retrievePoints()
@@ -59,5 +63,9 @@ class SharePageViewController: UIViewController {
     
     func share(shareLink: String) {
         UIApplication.sharedApplication().openURL(NSURL(string: shareLink)!)
+    }
+    
+    func backPressed() {
+        self.navigationController?.popViewControllerAnimated(true)
     }
 }
