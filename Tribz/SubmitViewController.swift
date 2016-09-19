@@ -50,6 +50,10 @@ class SubmitViewController: UIViewController, UIPickerViewDataSource, UIPickerVi
         let userDefaults = NSUserDefaults.standardUserDefaults()
         if let allUserInfo = userDefaults.valueForKey("userInfo") as? [String: Int] {
             
+            if let gender = allUserInfo["gender"] {
+                submit.gender = gender
+            }
+            
             if let age = allUserInfo["age"] {
                 submit.age = age
             }

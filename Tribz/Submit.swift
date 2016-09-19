@@ -15,6 +15,7 @@ class Submit {
     var weight: Int?
     var height: Int?
     var sleep: Int?
+    var gender: Int?
  
     let deviceId: String!
     let red: Int!
@@ -33,6 +34,9 @@ class Submit {
     func preparedDataForSubmit() -> String {
         var result = "deviceId=\(deviceId)&red=\(red)&yellow=\(yellow)&green=\(green)&blue=\(blue)"
         
+        if let gender = gender {
+            result += "&gender=\(gender)"
+        }
         if let email = email {
             result += "&email=\(email)"
         }

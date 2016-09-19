@@ -266,7 +266,16 @@ extension QuestionViewController : UITableViewDataSource {
         
         cell!.backgroundColor = UIColor.clearColor()
         cell!.optionContentView.backgroundColor = question.colorSet.mainColor
-        cell!.optionLabel.text = optionsArray[indexPath.row]
+        if question.optionsType == .Text {
+            cell!.optionImage.hidden = true
+            cell!.optionLabel.hidden = false
+            cell!.optionLabel.text = optionsArray[indexPath.row]
+        } else if question.optionsType == .Image {
+            cell!.optionLabel.hidden = true
+            cell!.optionImage.hidden = false
+            cell!.optionImage.image = UIImage(named: optionsArray[indexPath.row])
+        
+        }
         cell!.showsReorderControl = false
         
         return cell!

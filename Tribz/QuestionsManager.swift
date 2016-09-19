@@ -9,6 +9,7 @@
 import UIKit
 
 enum UserInfoQuestionType: Int {
+    case Gender
     case Age
     case Height
     case Weight
@@ -63,13 +64,19 @@ class QuestionsManager: NSObject {
             optionPoints: defaultPoints,
             colorSet: ColorSet.getColorSet(0)!),
         Question(question: "Readjust the following shapes in descending order from the one you like most to the one you like the least.",
-            options: ["△", "☆", "○", "☐"],
+            options: ["triangle", "blot", "circle", "square"],
+            optionsType: .Image,
             optionPoints: defaultPoints,
             colorSet: ColorSet.getColorSet(1)!)
     ]
     
     // correlates with UserInfoQuestionTypes enum
     private static let userInfoQuestions = [
+        Question(question: "Your gender",
+            options: ["male", "female"],
+            optionsType: .Image,
+            optionPoints: [],
+            colorSet: ColorSet.getColorSet(0)!),
         Question(question: "Your age",
             options: ["Under 25", "25-39", "40-55", "Over 55"],
             optionPoints: [],

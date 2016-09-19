@@ -62,6 +62,8 @@ class UserInfoQuestionViewController: UIViewController {
             let questionType = UserInfoQuestionType(rawValue: currentQuestionNumber) ?? .InvalidType
             
             switch questionType {
+            case .Gender:
+                addUserInfo("gender", value: indexPath.row)
             case .Age:
                 addUserInfo("age", value: indexPath.row)
             case .Height:
@@ -85,6 +87,8 @@ class UserInfoQuestionViewController: UIViewController {
             let questionType = UserInfoQuestionType(rawValue: currentQuestionNumber) ?? .InvalidType
             
             switch questionType {
+            case .Gender:
+                dropUserInfo("gender")
             case .Age:
                 dropUserInfo("age")
             case .Height:
@@ -170,7 +174,15 @@ extension UserInfoQuestionViewController : UITableViewDataSource {
         
         cell!.backgroundColor = UIColor.clearColor()
         cell!.optionContentView.backgroundColor = question.colorSet.mainColor
-        cell!.optionLabel.text = question.options[indexPath.row]
+        if question.optionsType == .Text {
+            cell!.optionImage.hidden = true
+            cell!.optionLabel.hidden = false
+            cell!.optionLabel.text = question.options[indexPath.row]
+        } else if question.optionsType == .Image {
+            cell!.optionLabel.hidden = true
+            cell!.optionImage.hidden = false
+            cell!.optionImage.image = UIImage(named: question.options[indexPath.row])
+        }
         cell!.showsReorderControl = false
         
         return cell!
