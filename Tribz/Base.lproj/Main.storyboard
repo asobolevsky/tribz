@@ -555,6 +555,7 @@
                     </view>
                     <connections>
                         <outlet property="backViewView" destination="IWf-zS-eqW" id="2wP-FS-dAp"/>
+                        <outlet property="contentView" destination="LmH-nD-RTY" id="e0h-lh-oaE"/>
                         <outlet property="nextStepViewView" destination="R7C-cb-R0H" id="n1V-ZG-0tI"/>
                         <outlet property="playerView" destination="mOf-Zp-BYi" id="l5g-S7-lHr"/>
                     </connections>
