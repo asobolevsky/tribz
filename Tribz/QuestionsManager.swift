@@ -72,7 +72,7 @@ class QuestionsManager: NSObject {
     
     // correlates with UserInfoQuestionTypes enum
     private static let userInfoQuestions = [
-        Question(question: "Your gender",
+        Question(question: "Are you male or female?",
             options: ["male", "female"],
             optionsType: .Image,
             optionPoints: [],

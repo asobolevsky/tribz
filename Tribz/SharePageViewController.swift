@@ -12,7 +12,7 @@ class SharePageViewController: UIViewController {
     
     @IBOutlet weak var contentView: UIView!
     @IBOutlet weak var backViewView: UIView!
-    @IBOutlet weak var mainPageViewView: UIView!
+    @IBOutlet weak var nextStepViewView: UIView!
     
     var shareText: String!
     var itunesLink: String!
@@ -24,8 +24,8 @@ class SharePageViewController: UIViewController {
         let image = UIImage(named: "screen_1")
         contentView.backgroundColor = UIColor(patternImage: image!)
         
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(SharePageViewController.mainPagePressed))
-        mainPageViewView.addGestureRecognizer(tapGesture)
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(SharePageViewController.nextPressed))
+        nextStepViewView.addGestureRecognizer(tapGesture)
         
         let backTapGesture = UITapGestureRecognizer(target: self, action: #selector(SharePageViewController.backPressed))
         backViewView.addGestureRecognizer(backTapGesture)
@@ -51,8 +51,8 @@ class SharePageViewController: UIViewController {
         return []
     }
     
-    func mainPagePressed() {
-        self.navigationController?.popToRootViewControllerAnimated(true)
+    func nextPressed() {
+        performSegueWithIdentifier("showLearnMorePage", sender: nil)
     }
     
     @IBAction func shareWithFB() {

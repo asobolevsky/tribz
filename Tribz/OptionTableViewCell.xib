@@ -26,7 +26,7 @@
                             <nil key="highlightedColor"/>
                         </label>
                         <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="mVR-Ad-9te">
-                            <rect key="frame" x="8" y="17.5" width="45" height="45"/>
+                            <rect key="frame" x="277.5" y="17.5" width="45" height="45"/>
                             <constraints>
                                 <constraint firstAttribute="width" secondItem="mVR-Ad-9te" secondAttribute="height" multiplier="1:1" id="P5e-Dl-dAB"/>
                                 <constraint firstAttribute="width" constant="45" id="bqQ-3r-XAg"/>
@@ -35,12 +35,12 @@
                     </subviews>
                     <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                     <constraints>
-                        <constraint firstItem="mVR-Ad-9te" firstAttribute="leading" secondItem="Kip-l6-8fB" secondAttribute="leading" constant="8" id="10H-Je-uoj"/>
                         <constraint firstItem="uwU-Xj-fmQ" firstAttribute="width" secondItem="Kip-l6-8fB" secondAttribute="width" id="3uC-si-TYg"/>
                         <constraint firstAttribute="trailing" secondItem="0oC-uu-usx" secondAttribute="trailing" constant="8" id="4n6-be-Pop"/>
                         <constraint firstItem="0oC-uu-usx" firstAttribute="leading" secondItem="Kip-l6-8fB" secondAttribute="leading" constant="8" id="8Na-ly-JFA"/>
                         <constraint firstItem="uwU-Xj-fmQ" firstAttribute="leading" secondItem="Kip-l6-8fB" secondAttribute="leading" id="Caq-8e-ng7"/>
                         <constraint firstItem="mVR-Ad-9te" firstAttribute="centerY" secondItem="Kip-l6-8fB" secondAttribute="centerY" id="MEi-YZ-IoQ"/>
+                        <constraint firstItem="mVR-Ad-9te" firstAttribute="centerX" secondItem="Kip-l6-8fB" secondAttribute="centerX" id="UbR-vD-eLR"/>
                         <constraint firstItem="uwU-Xj-fmQ" firstAttribute="top" secondItem="Kip-l6-8fB" secondAttribute="top" id="WL9-yq-UKe"/>
                         <constraint firstItem="0oC-uu-usx" firstAttribute="centerY" secondItem="Kip-l6-8fB" secondAttribute="centerY" id="X7a-By-sbx"/>
                         <constraint firstItem="uwU-Xj-fmQ" firstAttribute="height" secondItem="Kip-l6-8fB" secondAttribute="height" id="lVD-W0-pMT"/>

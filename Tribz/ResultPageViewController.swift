@@ -17,17 +17,25 @@ class ResultPageViewController: UIViewController {
     @IBOutlet weak var nextStepViewView: UIView!
     @IBOutlet weak var backViewView: UIView!
     
+    var currentResultTextSegment: Int!
     var primaryColor: PrimaryColor!
     var colorPriority: ColorPriority!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        if currentResultTextSegment == nil {
+            currentResultTextSegment = 0
+        }
+        
         titleLabel.text = "YOUR \(colorPriority.rawValue.uppercaseString) COLOR IS \(primaryColor.rawValue.uppercaseString)"
         
         let resultText = Result.getResultForPrimaryColor(primaryColor)
-        resultTextView.text = resultText
+        resultTextView.text = resultText[currentResultTextSegment]
         resultTextView.textColor = UIColor.whiteColor()
+        resultTextView.editable = true
+        resultTextView.font = UIFont.systemFontOfSize(15)
+        resultTextView.editable = false
         
         let image = UIImage(named: "screen_8")
         contentView.backgroundColor = UIColor(patternImage: image!)
@@ -53,8 +61,10 @@ class ResultPageViewController: UIViewController {
         resultBodyCont.backgroundColor = backgroundColor
         nextStepViewView.backgroundColor = backgroundColor
         
+    }
+    
+    override func viewDidLayoutSubviews() {
         resultTextView.contentOffset = CGPointZero
-        
     }
     
     func retrievePoints() -> [[Int]] {
@@ -68,7 +78,18 @@ class ResultPageViewController: UIViewController {
 
     
     func nextStepPressed() {
-        performSegueWithIdentifier("showSharePage", sender: nil)
+        if currentResultTextSegment < Result.getResultForPrimaryColor(primaryColor).count - 1 {
+            let storyboard = UIStoryboard(name: "Main", bundle: nil)
+            let vc = storyboard.instantiateViewControllerWithIdentifier("ResultPageViewController") as! ResultPageViewController
+
+            vc.currentResultTextSegment = currentResultTextSegment + 1
+            vc.colorPriority = colorPriority
+            vc.primaryColor = primaryColor
+
+            self.navigationController?.pushViewController(vc, animated: true)
+        } else {
+            performSegueWithIdentifier("showSharePage", sender: nil)
+        }
     }
     
     func backPressed() {

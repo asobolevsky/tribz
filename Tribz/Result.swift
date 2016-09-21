@@ -10,9 +10,8 @@ import UIKit
 
 class Result: NSObject {
     
-    private static let results: [PrimaryColor: String] = [
-        .Red: "Red light has a wavelength of about 650 nanometers.\nRed is the color of fire and blood, so it is associated with energy, war, danger, strength, power and determination.\nRed enhances human metabolism, increases respiration rate, and raises blood pressure.\nStop signs, stoplights, red cross, Ferraris, the first chakra and fire equipment are red.\nIt is a color found in many national flags.\nHaving high red energy you tend to behave...\n...as strong leader, fast paced thinker, risk taker, purposeful, critical thinker, driving, strong-willed, less patient, extroverted, competitive, problem solver, direct, outspoken and rational.\nYour focus is on results. You have a strong determination that influences those you interact with and you approach others in a direct and straightforward manner.\nYou enjoy applying your logical mind rigorously to work issues. Achieving a successful outcome supersedes people's feelings.\nYou can really enjoy a good, well thought through argument. You embrace conflict, as it clears the air and allows space to express concerns. You will argue your position forcefully and will not easily concede ground. You may appear aggressive and antagonistic especially to people with high green energy.\n\n" +
-            
+    private static let results: [PrimaryColor: [String]] = [
+        .Red: ["Red light has a wavelength of about 650 nanometers.\nRed is the color of fire and blood, so it is associated with energy, war, danger, strength, power and determination.\nRed enhances human metabolism, increases respiration rate, and raises blood pressure.\nStop signs, stoplights, red cross, Ferraris, the first chakra and fire equipment are red.\nIt is a color found in many national flags.\nHaving high red energy you tend to behave...\n...as strong leader, fast paced thinker, risk taker, purposeful, critical thinker, driving, strong-willed, less patient, extroverted, competitive, problem solver, direct, outspoken and rational.\nYour focus is on results. You have a strong determination that influences those you interact with and you approach others in a direct and straightforward manner.\nYou enjoy applying your logical mind rigorously to work issues. Achieving a successful outcome supersedes people's feelings.\nYou can really enjoy a good, well thought through argument. You embrace conflict, as it clears the air and allows space to express concerns. You will argue your position forcefully and will not easily concede ground. You may appear aggressive and antagonistic especially to people with high green energy.\n\n" +
             "\t• You take great pleasure in working passionately and purposefully towards your goals.\n" +
             "\t• You to set yourself very ambitious targets and have high standards.\n" +
             "\t• Finishing the job and achieving your goals are very important to you.\n" +
@@ -21,24 +20,23 @@ class Result: NSObject {
             "\t• You have a high opinion of your own abilities.\n" +
             "\t• You work well in a group, where you quickly move to take control to mobilize resources and achieve results.\n" +
             "\t• Your biggest fear is losing control.\n" +
-            "\t• Time is of essence and you can compromise in quality in order to deliver on time.\n\n\n" +
+            "\t• Time is of essence and you can compromise in quality in order to deliver on time.",
             
             "Communicating with a person with high red energy don’t:\n\n" +
             "\t• Be vague or ramble on\n\tWaffle or hesitate\n" +
             "\t• Become personal waste their time\n" +
             "\t• Ask irrelevant questions\n" +
-            "\t• Try to take control\n\n\n" +
+            "\t• Try to take control",
             
             "Communicating with a person with high red energy do:\n\n" +
             "\t• Get to business quickly,\n" +
             "\t• Be succinct and precise\n" +
             "\t• Give them facts and few details focus on results and outcomes\n" +
-            "\t• Speak and act confident and direct",
+            "\t• Speak and act confident and direct"],
         
-        .Yellow: "Yellow light has a wavelength of about 570 nanometers.\nIt is the color of sunshine associated with joy, happiness, optimism and partying: think of the smiley.\nIt is the color of the third chakra.\nYellow is an attention getter: think of taxicabs and of the classic color of Stabilo Boss highlighter.\n" +
+        .Yellow: ["Yellow light has a wavelength of about 570 nanometers.\nIt is the color of sunshine associated with joy, happiness, optimism and partying: think of the smiley.\nIt is the color of the third chakra.\nYellow is an attention getter: think of taxicabs and of the classic color of Stabilo Boss highlighter.\n" +
             "Having high yellow energy you tend to behave...\n" +
             "...as fun, convincing, engaging, sociable, talkative, expressive, extroverted, feeling, the soul of the party, imaginative, visionary, cheerful, influencing and enthusiastic.\n\n" +
-            
             "\t• You act very informal, very optimistic and impulsive.\n" +
             "\t• Your enthusiasm is contagious.\n" +
             "\t• You are a fast paced thinker and spontaneous.\n" +
@@ -55,7 +53,7 @@ class Result: NSObject {
             "\t• You enjoy working in a team, where you will quickly try to be the center of attention.\n" +
             "\t• You fight the status quo and embrace and stimulate change.\n" +
             "\t• You tend to wait to the last minute to complete tasks and projects and tend to run out of time.\n" +
-            "\t• Your biggest fear is losing prestige and acknowledgment.\n\n\n" +
+            "\t• Your biggest fear is losing prestige and acknowledgment.",
             
             "Communicating with a person with high yellow energy don’t:\n\n" +
             "\t• Burden them down with routine and bureaucracy" +
@@ -63,7 +61,7 @@ class Result: NSObject {
             "\t• Put them to work alone\n" +
             "\t• Be impersonal\n" +
             "\t• Jump right into business issues without taking time to bond first\n" +
-            "\t• Act aloof or detached\n\n\n" +
+            "\t• Act aloof or detached",
             
             "Communicating with a person with high yellow energy do:\n\n" +
             "\t• Be friendly and sociable before mentioning any business" +
@@ -71,12 +69,11 @@ class Result: NSObject {
             "\t• Be open and flexible enthusiastic and energetic\n" +
             "\t• Be fast paced in delivering your ideas\n" +
             "\t• Use humour entertaining and engaging\n" +
-            "\t• Appreciate and acknowledge them for their ideas, efforts and input",
+            "\t• Appreciate and acknowledge them for their ideas, efforts and input"],
         
-        .Green: "Green light has a wavelength of about 500 nanometers.\nGreen is the color of nature: trees, meadows, forests. It is the color of the fourth chakra (heart chakra). It symbolizes endurance, harmony, care, and stability.\nIt is the most restful color for the human eye. It is the color of free passage in traffic-lights: it symbolizes safety.\n\n" +
+        .Green: ["Green light has a wavelength of about 500 nanometers.\nGreen is the color of nature: trees, meadows, forests. It is the color of the fourth chakra (heart chakra). It symbolizes endurance, harmony, care, and stability.\nIt is the most restful color for the human eye. It is the color of free passage in traffic-lights: it symbolizes safety.\n\n" +
             "Having high green energy you tend to behave...\n" +
             "...as laid back, relaxed, patient, reliable, accommodating, feeling, introverted, calm, easy to get along with, focused on relationships, courteous and considerate of people, amenable, caring and reflective.\n\n" +
-            
             "\t• You are informal in your approach.\n" +
             "\t• You are a slower paced thinker.\n" +
             "\t• You are understanding and democratic, therefore you work well one to one and in groups.\n" +
@@ -89,7 +86,7 @@ class Result: NSObject {
             "\t• Your leadership style is quiet and gentle.\n" +
             "\t• You might say “yes” when in fact is a “no” to maintain peace and to not disappoint.\n" +
             "\t• You don't enjoy to be the centre of attention in a group.\n" +
-            "\t• Your biggest fear is conflict and confrontation.\n\n\n" +
+            "\t• Your biggest fear is conflict and confrontation.",
             
             "Communicating with a person with high green energy don’t:\n\n" +
             "\t• Push them to make quick decisions or put them on a spot\n" +
@@ -97,22 +94,21 @@ class Result: NSObject {
             "\t• Come unexpected\n" +
             "\t• Take advantage of their patience and support or be insincere\n" +
             "\t• Make wild claims or demands\n" +
-            "\t• Be disrespectful\n\n\n" +
+            "\t• Be disrespectful",
             
             "Communicating with a person with high green energy do:\n\n" +
             "\t• Be friendly and show them you care about them genuinely\n" +
             "\t• Ask their opinion give time to answer\n" +
             "\t• Talk personal before going into business\n" +
             "\t• Slow your pace down\n" +
-            "\t• Develop trust first, be informal",
+            "\t• Develop trust first, be informal"],
         
-        .Blue: "Blue light has a wavelength of about 475 nanometers.\n" +
+        .Blue: ["Blue light has a wavelength of about 475 nanometers.\n" +
             "Blue is the color of the sea and sky and as the sea it symbolizes depth.\n" +
             "Blue is often used in high-tech products to suggest precision.\n" +
             "Dark blue is associated with depth, expertise, and stability; it is a preferred color for corporate America.\n" +
             "Having blue green energy you tend to behave...\n" +
             "...as analytical, concise, factual, detail focused, introverted, formal thinking, correct, cautious, conventional, logical, structured, deliberate and systematic.\n\n" +
-            
             "\t• You like things in their place, and are very organized with good time management skills.\n" +
             "\t• You are consistent and tend to perfectionism.\n" +
             "\t• You are an excellent observer of situations and people and you think carefully before sharing your ideas, views and perspectives.\n" +
@@ -132,7 +128,7 @@ class Result: NSObject {
             "\t• You are disciplined and like to bring structure and organization to what you do.\n" +
             "\t• You like to have clear rules and expect yourself and others to play by them.\n" +
             "\t• Your biggest fear is embarrassment and being criticized.\n" +
-            "\t• You are normally calm even under duress but you try to avoid unnecessary stress by careful planning.\n\n\n" +
+            "\t• You are normally calm even under duress but you try to avoid unnecessary stress by careful planning.",
             
             "Communicating with a person with high blue energy don’t:\n\n" +
             "\t• Come across as disorganized\n" +
@@ -141,7 +137,7 @@ class Result: NSObject {
             "\t• Be flippant or pushy\n" +
             "\t• Be vague\n" +
             "\t• Exaggerate claims\n" +
-            "\t• Be too emotional\n\n\n" +
+            "\t• Be too emotional",
             
             "Communicating with a person with high blue energy do:\n\n" +
             "\t• Be well prepared\n" +
@@ -152,10 +148,10 @@ class Result: NSObject {
             "\t• Listen carefully to what is said\n" +
             "\t• Allow time to reflect and respond\n" +
             "\t• Be formal in your approach\n" +
-            "\t• Don’t touch him/her especially if it is the first time you meet"
+            "\t• Don’t touch him/her especially if it is the first time you meet"]
     ]
     
-    static func getResultForPrimaryColor(color: PrimaryColor) -> String {
+    static func getResultForPrimaryColor(color: PrimaryColor) -> [String] {
         return  results[color]!
     }
     
