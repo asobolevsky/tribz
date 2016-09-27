@@ -9,8 +9,8 @@
 import UIKit
 
 enum QuestionOptionsType {
-    case Text
-    case Image
+    case text
+    case image
 }
 
 class Question: NSObject {
@@ -22,7 +22,7 @@ class Question: NSObject {
     let colorSet: ColorSet
     
     convenience init(question: String, options: [String], optionPoints: [Int], colorSet: ColorSet) {
-        self.init(question: question, options: options, optionsType: .Text, optionPoints: optionPoints, colorSet: colorSet)
+        self.init(question: question, options: options, optionsType: .text, optionPoints: optionPoints, colorSet: colorSet)
     }
     
     required init(question: String, options: [String], optionsType:QuestionOptionsType, optionPoints: [Int], colorSet: ColorSet) {

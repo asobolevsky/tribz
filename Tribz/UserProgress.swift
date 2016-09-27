@@ -64,7 +64,7 @@ class UserProgress: NSObject {
             return results
         }
         
-        sortedResults = [redResult, yellowResult, greenResult, blueResult].sort(>)
+        sortedResults = [redResult, yellowResult, greenResult, blueResult].sorted(by: >)
         return sortedResults!
     }
     
@@ -86,7 +86,7 @@ class UserProgress: NSObject {
         return getColorForResult(result)
     }
     
-    func getColorForResult(result: Int) -> PrimaryColor {
+    func getColorForResult(_ result: Int) -> PrimaryColor {
         var color: PrimaryColor
         if result == redResult && !colorsPreference.contains(.Red) {
             color = .Red
@@ -128,7 +128,7 @@ class UserProgress: NSObject {
 }
 
 extension Array {
-    func contains<T where T : Equatable>(obj: T) -> Bool {
+    func contains<T>(_ obj: T) -> Bool where T : Equatable {
         return self.filter({$0 as? T == obj}).count > 0
     }
 }

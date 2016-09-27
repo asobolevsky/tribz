@@ -28,11 +28,11 @@ class AboutPageViewController : UIViewController {
     }
     
     func nextStepPressed() {
-        performSegueWithIdentifier("showHowToAnswerPage", sender: nil)
+        performSegue(withIdentifier: "showHowToAnswerPage", sender: nil)
     }
     
     func backPressed() {
-        self.navigationController?.popViewControllerAnimated(true)
+        self.navigationController?.popViewController(animated: true)
     }
     
 }

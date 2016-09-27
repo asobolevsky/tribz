@@ -28,14 +28,14 @@ class ResultPageViewController: UIViewController {
             currentResultTextSegment = 0
         }
         
-        titleLabel.text = "YOUR \(colorPriority.rawValue.uppercaseString) COLOR IS \(primaryColor.rawValue.uppercaseString)"
+        titleLabel.text = "YOUR \(colorPriority.rawValue.uppercased()) COLOR IS \(primaryColor.rawValue.uppercased())"
         
         let resultText = Result.getResultForPrimaryColor(primaryColor)
         resultTextView.text = resultText[currentResultTextSegment]
-        resultTextView.textColor = UIColor.whiteColor()
-        resultTextView.editable = true
-        resultTextView.font = UIFont.systemFontOfSize(15)
-        resultTextView.editable = false
+        resultTextView.textColor = UIColor.white
+        resultTextView.isEditable = true
+        resultTextView.font = UIFont.systemFont(ofSize: 15)
+        resultTextView.isEditable = false
         
         let image = UIImage(named: "screen_8")
         contentView.backgroundColor = UIColor(patternImage: image!)
@@ -64,12 +64,12 @@ class ResultPageViewController: UIViewController {
     }
     
     override func viewDidLayoutSubviews() {
-        resultTextView.contentOffset = CGPointZero
+        resultTextView.contentOffset = CGPoint.zero
     }
     
     func retrievePoints() -> [[Int]] {
-        let userDefaults = NSUserDefaults.standardUserDefaults()
-        if let allPoints = userDefaults.valueForKey("points") {
+        let userDefaults = UserDefaults.standard
+        if let allPoints = userDefaults.value(forKey: "points") {
             return allPoints as! [[Int]]
         }
         
@@ -80,7 +80,7 @@ class ResultPageViewController: UIViewController {
     func nextStepPressed() {
         if currentResultTextSegment < Result.getResultForPrimaryColor(primaryColor).count - 1 {
             let storyboard = UIStoryboard(name: "Main", bundle: nil)
-            let vc = storyboard.instantiateViewControllerWithIdentifier("ResultPageViewController") as! ResultPageViewController
+            let vc = storyboard.instantiateViewController(withIdentifier: "ResultPageViewController") as! ResultPageViewController
 
             vc.currentResultTextSegment = currentResultTextSegment + 1
             vc.colorPriority = colorPriority
@@ -88,11 +88,11 @@ class ResultPageViewController: UIViewController {
 
             self.navigationController?.pushViewController(vc, animated: true)
         } else {
-            performSegueWithIdentifier("showSharePage", sender: nil)
+            performSegue(withIdentifier: "showSharePage", sender: nil)
         }
     }
     
     func backPressed() {
-        self.navigationController?.popViewControllerAnimated(true)
+        self.navigationController?.popViewController(animated: true)
     }
 }

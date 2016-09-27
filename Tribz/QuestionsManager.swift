@@ -9,12 +9,12 @@
 import UIKit
 
 enum UserInfoQuestionType: Int {
-    case Gender
-    case Age
-    case Height
-    case Weight
-    case Sleep
-    case InvalidType
+    case gender
+    case age
+    case height
+    case weight
+    case sleep
+    case invalidType
 }
 
 class QuestionsManager: NSObject {
@@ -22,11 +22,11 @@ class QuestionsManager: NSObject {
     
     // options and points = [red, yellow, green, blue]
     
-    private static let defaultQuestion = "HOW WELL DO THESE DESCRIBE YOU?"
+    fileprivate static let defaultQuestion = "HOW WELL DO THESE DESCRIBE YOU?"
     
-    private static let defaultPoints = [4, 3, 2, 1]
+    fileprivate static let defaultPoints = [4, 3, 2, 1]
     
-    private static let questions = [
+    fileprivate static let questions = [
         Question(question: defaultQuestion,
             options: ["Competitive", "Enthusiastic", "Patient", "Precise"],
             optionPoints: defaultPoints,
@@ -65,16 +65,16 @@ class QuestionsManager: NSObject {
             colorSet: ColorSet.getColorSet(0)!),
         Question(question: "Readjust the following shapes in descending order from the one you like most to the one you like the least.",
             options: ["triangle", "blot", "circle", "square"],
-            optionsType: .Image,
+            optionsType: .image,
             optionPoints: defaultPoints,
             colorSet: ColorSet.getColorSet(1)!)
     ]
     
     // correlates with UserInfoQuestionTypes enum
-    private static let userInfoQuestions = [
+    fileprivate static let userInfoQuestions = [
         Question(question: "Are you male or female?",
             options: ["male", "female"],
-            optionsType: .Image,
+            optionsType: .image,
             optionPoints: [],
             colorSet: ColorSet.getColorSet(0)!),
         Question(question: "Your age",
@@ -96,7 +96,7 @@ class QuestionsManager: NSObject {
     ]
 
     
-    private static var randomizedQuestions: [Question]? = nil
+    fileprivate static var randomizedQuestions: [Question]? = nil
     
     static func getQuestions() -> [Question] {
         
@@ -109,7 +109,7 @@ class QuestionsManager: NSObject {
         return randomizedQuestions!
     }
     
-    static func getQuestionAtIndex(index: Int) -> Question? {
+    static func getQuestionAtIndex(_ index: Int) -> Question? {
         guard index <= getQuestions().count else {
             return nil
         }
@@ -121,7 +121,7 @@ class QuestionsManager: NSObject {
         return userInfoQuestions
     }
     
-    static func getUserInfoQuestionAtIndex(index: Int) -> Question? {
+    static func getUserInfoQuestionAtIndex(_ index: Int) -> Question? {
         guard index <= userInfoQuestions.count else {
             return nil
         }
@@ -131,16 +131,16 @@ class QuestionsManager: NSObject {
     
 }
 
-extension CollectionType {
+extension Collection {
     /// Return a copy of `self` with its elements shuffled
-    func shuffle() -> [Generator.Element] {
+    func shuffle() -> [Iterator.Element] {
         var list = Array(self)
         list.shuffleInPlace()
         return list
     }
 }
 
-extension MutableCollectionType where Index == Int {
+extension MutableCollection where Index == Int {
     /// Shuffle the elements of `self` in-place.
     mutating func shuffleInPlace() {
         // empty and single-element collections don't shuffle

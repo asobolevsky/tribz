@@ -23,11 +23,11 @@ class MainPageViewController: UIViewController {
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(MainPageViewController.startTestPressed))
         startTestView.addGestureRecognizer(tapGesture)
         
-        self.navigationController?.navigationBarHidden = true
+        self.navigationController?.isNavigationBarHidden = true
         
-        let userDefaults = NSUserDefaults.standardUserDefaults()
-        userDefaults.removeObjectForKey("points")
-        userDefaults.removeObjectForKey("userInfo")
+        let userDefaults = UserDefaults.standard
+        userDefaults.removeObject(forKey: "points")
+        userDefaults.removeObject(forKey: "userInfo")
     }
 
     override func didReceiveMemoryWarning() {
@@ -37,7 +37,7 @@ class MainPageViewController: UIViewController {
 
     // MARK: - Actions
     func startTestPressed() {
-        performSegueWithIdentifier("showAboutPage", sender: nil)
+        performSegue(withIdentifier: "showAboutPage", sender: nil)
     }
     
 }

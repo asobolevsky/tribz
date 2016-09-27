@@ -7,11 +7,9 @@
 //
 
 import UIKit
-import YouTubePlayer
 
 class LearnMoreViewController: UIViewController {
     
-    @IBOutlet var playerView: YouTubePlayerView!
     @IBOutlet weak var contentView: UIView!
     @IBOutlet weak var nextStepViewView: UIView!
     @IBOutlet weak var backViewView: UIView!
@@ -21,8 +19,6 @@ class LearnMoreViewController: UIViewController {
         
         contentView.backgroundColor = UIColor(patternImage: UIImage(named:"screen_3")!)
         
-        playerView.loadVideoID("KK9bwTlAvgo")
-        
         let mainPageGesture = UITapGestureRecognizer(target: self, action: #selector(LearnMoreViewController.mainPagePressed))
         nextStepViewView.addGestureRecognizer(mainPageGesture)
         
@@ -31,11 +27,11 @@ class LearnMoreViewController: UIViewController {
     }
     
     func backPressed() {
-        self.navigationController?.popViewControllerAnimated(true)
+        self.navigationController?.popViewController(animated: true)
     }
     
     func mainPagePressed() {
-        self.navigationController?.popToRootViewControllerAnimated(true)
+        self.navigationController?.popToRootViewController(animated: true)
     }
 
 }

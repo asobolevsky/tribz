@@ -40,39 +40,39 @@ class UserInfoQuestionViewController: UIViewController {
         
         questionTitleLabel.text = question.question
         
-        optionsTable.separatorColor = UIColor.clearColor()
-        optionsTable.backgroundColor = UIColor.clearColor()
+        optionsTable.separatorColor = UIColor.clear
+        optionsTable.backgroundColor = UIColor.clear
         optionsTable.clipsToBounds = false
-        optionsTable.registerNib(UINib(nibName: "OptionTableViewCell", bundle: nil), forCellReuseIdentifier: "optionCell")
+        optionsTable.register(UINib(nibName: "OptionTableViewCell", bundle: nil), forCellReuseIdentifier: "optionCell")
     }
     
     func nextStepPressed() {
         if currentQuestionNumber < QuestionsManager.getUserInfoQuestions().count - 1 {
             let storyboard = UIStoryboard(name: "Main", bundle: nil)
-            let vc = storyboard.instantiateViewControllerWithIdentifier("UserInfoQuestionViewController") as! UserInfoQuestionViewController
+            let vc = storyboard.instantiateViewController(withIdentifier: "UserInfoQuestionViewController") as! UserInfoQuestionViewController
             
             vc.currentQuestionNumber = currentQuestionNumber + 1
             
             self.navigationController?.pushViewController(vc, animated: true)
         } else {
-            performSegueWithIdentifier("showSubmitPage", sender: nil)
+            performSegue(withIdentifier: "showSubmitPage", sender: nil)
         }
         
         if let indexPath = optionsTable.indexPathForSelectedRow {
-            let questionType = UserInfoQuestionType(rawValue: currentQuestionNumber) ?? .InvalidType
+            let questionType = UserInfoQuestionType(rawValue: currentQuestionNumber) ?? .invalidType
             
             switch questionType {
-            case .Gender:
-                addUserInfo("gender", value: indexPath.row)
-            case .Age:
-                addUserInfo("age", value: indexPath.row)
-            case .Height:
-                addUserInfo("height", value: indexPath.row)
-            case .Weight:
-                addUserInfo("weight", value: indexPath.row)
-            case .Sleep:
-                addUserInfo("sleep", value: indexPath.row)
-            case .InvalidType:
+            case .gender:
+                addUserInfo("gender", value: (indexPath as NSIndexPath).row)
+            case .age:
+                addUserInfo("age", value: (indexPath as NSIndexPath).row)
+            case .height:
+                addUserInfo("height", value: (indexPath as NSIndexPath).row)
+            case .weight:
+                addUserInfo("weight", value: (indexPath as NSIndexPath).row)
+            case .sleep:
+                addUserInfo("sleep", value: (indexPath as NSIndexPath).row)
+            case .invalidType:
                 print("Invalid question")
             }
         }
@@ -82,22 +82,22 @@ class UserInfoQuestionViewController: UIViewController {
         // show prev question
         if currentQuestionNumber > 0 {
             let storyboard = UIStoryboard(name: "Main", bundle: nil)
-            let vc = storyboard.instantiateViewControllerWithIdentifier("UserInfoQuestionViewController") as! UserInfoQuestionViewController
+            let vc = storyboard.instantiateViewController(withIdentifier: "UserInfoQuestionViewController") as! UserInfoQuestionViewController
             
-            let questionType = UserInfoQuestionType(rawValue: currentQuestionNumber) ?? .InvalidType
+            let questionType = UserInfoQuestionType(rawValue: currentQuestionNumber) ?? .invalidType
             
             switch questionType {
-            case .Gender:
+            case .gender:
                 dropUserInfo("gender")
-            case .Age:
+            case .age:
                 dropUserInfo("age")
-            case .Height:
+            case .height:
                 dropUserInfo("height")
-            case .Weight:
+            case .weight:
                 dropUserInfo("weight")
-            case .Sleep:
+            case .sleep:
                 dropUserInfo("sleep")
-            case .InvalidType:
+            case .invalidType:
                 print("Invalid question")
             }
             
@@ -106,12 +106,12 @@ class UserInfoQuestionViewController: UIViewController {
             dropLastPoints()
         }
         
-        self.navigationController?.popViewControllerAnimated(true)
+        self.navigationController?.popViewController(animated: true)
     }
     
     func retrievePoints() -> [[Int]] {
-        let userDefaults = NSUserDefaults.standardUserDefaults()
-        if let allPoints = userDefaults.valueForKey("points") {
+        let userDefaults = UserDefaults.standard
+        if let allPoints = userDefaults.value(forKey: "points") {
             return allPoints as! [[Int]]
         }
         
@@ -120,36 +120,36 @@ class UserInfoQuestionViewController: UIViewController {
     
     func dropLastPoints() {
         var points = retrievePoints()
-        let userDefaults = NSUserDefaults.standardUserDefaults()
+        let userDefaults = UserDefaults.standard
         let _ = points.removeLast()
         userDefaults.setValue(points, forKey: "points")
         userDefaults.synchronize() // don't forget this!!!!
     }
     
-    func addUserInfo(title: String, value: Int) {
+    func addUserInfo(_ title: String, value: Int) {
         var allUserInfo = [String: Int]()
         if let userInfo = retrieveUserInfo() {
             allUserInfo = userInfo
         }
         allUserInfo[title] = value
         
-        let userDefaults = NSUserDefaults.standardUserDefaults()
+        let userDefaults = UserDefaults.standard
         userDefaults.setValue(allUserInfo, forKey: "userInfo")
         userDefaults.synchronize() // don't forget this!!!!
     }
     
-    func dropUserInfo(title: String) {
+    func dropUserInfo(_ title: String) {
         if var userInfo = retrieveUserInfo() {
-            let userDefaults = NSUserDefaults.standardUserDefaults()
-            let _ = userInfo.removeValueForKey(title)
+            let userDefaults = UserDefaults.standard
+            let _ = userInfo.removeValue(forKey: title)
             userDefaults.setValue(userInfo, forKey: "userInfo")
             userDefaults.synchronize() // don't forget this!!!!
         }
     }
     
     func retrieveUserInfo() -> [String: Int]? {
-        let userDefaults = NSUserDefaults.standardUserDefaults()
-        if let allUserInfo = userDefaults.valueForKey("userInfo") {
+        let userDefaults = UserDefaults.standard
+        if let allUserInfo = userDefaults.value(forKey: "userInfo") {
             return allUserInfo as? [String: Int]
         }
         
@@ -161,27 +161,27 @@ class UserInfoQuestionViewController: UIViewController {
 //MARK: - UITableViewDataSource
 extension UserInfoQuestionViewController : UITableViewDataSource {
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return question.options.count
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        var cell = tableView.dequeueReusableCellWithIdentifier("optionCell") as? OptionTableViewCell
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        var cell = tableView.dequeueReusableCell(withIdentifier: "optionCell") as? OptionTableViewCell
         
         if cell == nil {
-            cell = OptionTableViewCell(style: .Default, reuseIdentifier: "optionCell")
+            cell = OptionTableViewCell(style: .default, reuseIdentifier: "optionCell")
         }
         
-        cell!.backgroundColor = UIColor.clearColor()
+        cell!.backgroundColor = UIColor.clear
         cell!.optionContentView.backgroundColor = question.colorSet.mainColor
-        if question.optionsType == .Text {
-            cell!.optionImage.hidden = true
-            cell!.optionLabel.hidden = false
-            cell!.optionLabel.text = question.options[indexPath.row]
-        } else if question.optionsType == .Image {
-            cell!.optionLabel.hidden = true
-            cell!.optionImage.hidden = false
-            cell!.optionImage.image = UIImage(named: question.options[indexPath.row])
+        if question.optionsType == .text {
+            cell!.optionImage.isHidden = true
+            cell!.optionLabel.isHidden = false
+            cell!.optionLabel.text = question.options[(indexPath as NSIndexPath).row]
+        } else if question.optionsType == .image {
+            cell!.optionLabel.isHidden = true
+            cell!.optionImage.isHidden = false
+            cell!.optionImage.image = UIImage(named: question.options[(indexPath as NSIndexPath).row])
         }
         cell!.showsReorderControl = false
         

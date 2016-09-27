@@ -14,7 +14,7 @@ class ColorSet: NSObject {
     let mainColor: UIColor
     let accessoryColor: UIColor
     
-    private static let colorSets = [
+    fileprivate static let colorSets = [
         ColorSet(background: "screen_2",
             mainColor: UIColor(red: 0.454901960784314, green: 0.709803921568627, blue: 0.2, alpha: 1.0),
             accessoryColor: UIColor(red: 0.207843137254902, green: 0.568627450980392, blue: 0.2, alpha: 1.0)),
@@ -35,7 +35,7 @@ class ColorSet: NSObject {
         self.accessoryColor = accessoryColor
     }
     
-    static func getColorSet(index: Int) -> ColorSet? {
+    static func getColorSet(_ index: Int) -> ColorSet? {
         guard index <= colorSets.count else {
             return nil
         }

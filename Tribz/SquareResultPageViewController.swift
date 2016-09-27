@@ -41,15 +41,15 @@ class SquareResultPageViewController: UIViewController {
         userProgress.questionsResult = retrievePoints()
         
         let colorsPercentageArray = userProgress.getColorsPercentage() as AnyObject as! [Int]
-        let sortedColorsPercentageArray = colorsPercentageArray.sort()
+        let sortedColorsPercentageArray = colorsPercentageArray.sorted()
         
         let image = UIImage(named: "screen_8")
         contentView.backgroundColor = UIColor(patternImage: image!)
         
-        oppositeSquareButton.setTitle("\(sortedColorsPercentageArray[0]) %", forState: .Normal)
-        recessiveSquareButton.setTitle("\(sortedColorsPercentageArray[1]) %", forState: .Normal)
-        secondarySquareButton.setTitle("\(sortedColorsPercentageArray[2]) %", forState: .Normal)
-        primarySquareButton.setTitle("\(sortedColorsPercentageArray[3]) %", forState: .Normal)
+        oppositeSquareButton.setTitle("\(sortedColorsPercentageArray[0]) %", for: UIControlState())
+        recessiveSquareButton.setTitle("\(sortedColorsPercentageArray[1]) %", for: UIControlState())
+        secondarySquareButton.setTitle("\(sortedColorsPercentageArray[2]) %", for: UIControlState())
+        primarySquareButton.setTitle("\(sortedColorsPercentageArray[3]) %", for: UIControlState())
         
         primaryColor = userProgress.getPrimaryColor()
         secondaryColor = userProgress.getSecondaryColor()
@@ -67,9 +67,14 @@ class SquareResultPageViewController: UIViewController {
         let backTapGesture = UITapGestureRecognizer(target: self, action: #selector(SquareResultPageViewController.backPressed))
         backViewView.addGestureRecognizer(backTapGesture)
 
+//        https://www.appcoda.com/ios-charts-api-tutorial/
+//        Площадь сектора должна соответствовать процентам, а цвет лэйблов Primary Secondary Recessive Opposite тому цвету, который получился.
+//        
+//        Верхний правый всегда Primary, нижний правый всегда Secondary, нижний левый Recessive, верхний левый Opposite
+
     }
     
-    func setSquareViewColor(square: UIView, color: PrimaryColor) {
+    func setSquareViewColor(_ square: UIView, color: PrimaryColor) {
         switch color {
         case .Red:
             square.backgroundColor = UIColor(red: 0.713725490196078, green: 0.0, blue: 0.0509803921568627, alpha: 0.95)
@@ -88,8 +93,8 @@ class SquareResultPageViewController: UIViewController {
     }
     
     func retrievePoints() -> [[Int]] {
-        let userDefaults = NSUserDefaults.standardUserDefaults()
-        if let allPoints = userDefaults.valueForKey("points") {
+        let userDefaults = UserDefaults.standard
+        if let allPoints = userDefaults.value(forKey: "points") {
             return allPoints as! [[Int]]
         }
         
@@ -112,25 +117,25 @@ class SquareResultPageViewController: UIViewController {
         showDetailedResultPageWithColor(oppositeColor, priority: .Opposite)
     }
     
-    func showDetailedResultPageWithColor(color: PrimaryColor, priority: ColorPriority) {
+    func showDetailedResultPageWithColor(_ color: PrimaryColor, priority: ColorPriority) {
         selectedColor = color
         colorPriority = priority
-        performSegueWithIdentifier("showResultPage", sender: nil)
+        performSegue(withIdentifier: "showResultPage", sender: nil)
     }
     
     func nextStepPressed() {
-        performSegueWithIdentifier("showSharePage", sender: nil)
+        performSegue(withIdentifier: "showSharePage", sender: nil)
     }
     
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "showResultPage" {
-            let vc = segue.destinationViewController as! ResultPageViewController
+            let vc = segue.destination as! ResultPageViewController
             vc.primaryColor = selectedColor
             vc.colorPriority = colorPriority
         }
     }
     
     func backPressed() {
-        self.navigationController?.popViewControllerAnimated(true)
+        self.navigationController?.popViewController(animated: true)
     }
 }

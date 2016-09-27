@@ -15,12 +15,12 @@ class OptionTableViewCell: UITableViewCell {
     @IBOutlet weak var optionImage: UIImageView!
     @IBOutlet weak var veilView: UIView!
     
-    override func setSelected(selected: Bool, animated: Bool) {
-        veilView.hidden = !selected
+    override func setSelected(_ selected: Bool, animated: Bool) {
+        veilView.isHidden = !selected
     }
     
-    override func setHighlighted(highlighted: Bool, animated: Bool) {
-        veilView.hidden = !highlighted
+    override func setHighlighted(_ highlighted: Bool, animated: Bool) {
+        veilView.isHidden = !highlighted
     }
 
     

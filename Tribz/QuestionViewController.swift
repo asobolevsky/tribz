@@ -50,10 +50,10 @@ class QuestionViewController : UIViewController {
         let backTapGesture = UITapGestureRecognizer(target: self, action: #selector(QuestionViewController.backPressed))
         backViewView.addGestureRecognizer(backTapGesture)
         
-        optionsTable.separatorColor = UIColor.clearColor()
-        optionsTable.backgroundColor = UIColor.clearColor()
+        optionsTable.separatorColor = UIColor.clear
+        optionsTable.backgroundColor = UIColor.clear
         optionsTable.clipsToBounds = false
-        optionsTable.registerNib(UINib(nibName: "OptionTableViewCell", bundle: nil), forCellReuseIdentifier: "optionCell")
+        optionsTable.register(UINib(nibName: "OptionTableViewCell", bundle: nil), forCellReuseIdentifier: "optionCell")
         
         let panGesture = UIPanGestureRecognizer(target: self, action: #selector(QuestionViewController.panGestureRecognized))
         optionsTable.addGestureRecognizer(panGesture)
@@ -63,7 +63,7 @@ class QuestionViewController : UIViewController {
     func nextStepPressed() {
         if currentQuestionNumber < QuestionsManager.getQuestions().count - 1 {
             let storyboard = UIStoryboard(name: "Main", bundle: nil)
-            let vc = storyboard.instantiateViewControllerWithIdentifier("QuestionViewController") as! QuestionViewController
+            let vc = storyboard.instantiateViewController(withIdentifier: "QuestionViewController") as! QuestionViewController
             
             vc.currentQuestionNumber = currentQuestionNumber + 1
             
@@ -71,7 +71,7 @@ class QuestionViewController : UIViewController {
             
             self.navigationController?.pushViewController(vc, animated: true)
         } else {
-            performSegueWithIdentifier("showUserInfoQuestionPage", sender: nil)
+            performSegue(withIdentifier: "showUserInfoQuestionPage", sender: nil)
         }
     }
     
@@ -79,14 +79,14 @@ class QuestionViewController : UIViewController {
         // show prev question
         if currentQuestionNumber > 0 {
             let storyboard = UIStoryboard(name: "Main", bundle: nil)
-            let vc = storyboard.instantiateViewControllerWithIdentifier("QuestionViewController") as! QuestionViewController
+            let vc = storyboard.instantiateViewController(withIdentifier: "QuestionViewController") as! QuestionViewController
             
             vc.currentQuestionNumber = currentQuestionNumber - 1
             
             dropLastPoints()
         }
         
-        self.navigationController?.popViewControllerAnimated(true)
+        self.navigationController?.popViewController(animated: true)
     }
     
     func addPoints() {
@@ -98,14 +98,14 @@ class QuestionViewController : UIViewController {
             points = [pointsArray as AnyObject as! [Int]]
         }
         
-        let userDefaults = NSUserDefaults.standardUserDefaults()
+        let userDefaults = UserDefaults.standard
         userDefaults.setValue(points, forKey: "points")
         userDefaults.synchronize() // don't forget this!!!!
     }
     
     func dropLastPoints() {
         if var points = retrievePoints() {
-            let userDefaults = NSUserDefaults.standardUserDefaults()
+            let userDefaults = UserDefaults.standard
             let _ = points.removeLast()
             userDefaults.setValue(points, forKey: "points")
             userDefaults.synchronize() // don't forget this!!!!
@@ -113,36 +113,36 @@ class QuestionViewController : UIViewController {
     }
     
     func retrievePoints() -> [[Int]]? {
-        let userDefaults = NSUserDefaults.standardUserDefaults()
-        if let allPoints = userDefaults.valueForKey("points") {
+        let userDefaults = UserDefaults.standard
+        if let allPoints = userDefaults.value(forKey: "points") {
             return allPoints as? [[Int]]
         }
         
         return nil
     }
     
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "showUserInfoQuestionPage" {
             addPoints()
         }
     }
     
     var snapShot: UIView?                ///< A snapshot of the row user is moving.
-    var sourceIndexPath: NSIndexPath?    ///< Initial index path, where gesture begins.
+    var sourceIndexPath: IndexPath?    ///< Initial index path, where gesture begins.
     
-    func panGestureRecognized(sender: UILongPressGestureRecognizer) {
+    func panGestureRecognized(_ sender: UILongPressGestureRecognizer) {
         let state = sender.state
-        let location = sender.locationInView(optionsTable)
+        let location = sender.location(in: optionsTable)
         
         switch state {
-        case .Began:
-            guard let indexPath = optionsTable.indexPathForRowAtPoint(location) else {
+        case .began:
+            guard let indexPath = optionsTable.indexPathForRow(at: location) else {
                 restoreCellsState()
                 return
             }
             
             sourceIndexPath = indexPath
-            guard let cell = optionsTable.cellForRowAtIndexPath(indexPath) else {
+            guard let cell = optionsTable.cellForRow(at: indexPath) else {
                 restoreCellsState()
                 return
             }
@@ -155,19 +155,19 @@ class QuestionViewController : UIViewController {
             snapShot?.center = center
             snapShot?.alpha = 0.0
             optionsTable.addSubview(snapShot!)
-            UIView.animateWithDuration(0.25, animations: {
+            UIView.animate(withDuration: 0.25, animations: {
                 // Offset for gesture location.
                 center.y = location.y
                 self.snapShot?.center = center
-                self.snapShot?.transform = CGAffineTransformMakeScale(1.05, 1.05)
+                self.snapShot?.transform = CGAffineTransform(scaleX: 1.05, y: 1.05)
                 self.snapShot?.alpha = 0.98
                 
                 cell.alpha = 0.0
                 }, completion: { _ in
-                    cell.hidden = true
+                    cell.isHidden = true
             })
-        case .Changed:
-            guard let indexPath = optionsTable.indexPathForRowAtPoint(location) else {
+        case .changed:
+            guard let indexPath = optionsTable.indexPathForRow(at: location) else {
                 restoreCellsState()
                 return
             }
@@ -184,14 +184,14 @@ class QuestionViewController : UIViewController {
             snapShot.center = center
             
             // Is destination valid and is it different from source?
-            if !indexPath.isEqual(sourceIndexPathTmp) {
+            if indexPath != sourceIndexPathTmp {
                 
                 // ... update data source.
-                swap(&optionsArray[indexPath.row], &optionsArray[sourceIndexPath!.row])
-                swap(&pointsArray[indexPath.row], &pointsArray[sourceIndexPath!.row])
+                swap(&optionsArray[(indexPath as NSIndexPath).row], &optionsArray[(sourceIndexPath! as NSIndexPath).row])
+                swap(&pointsArray[(indexPath as NSIndexPath).row], &pointsArray[(sourceIndexPath! as NSIndexPath).row])
                 
                 // ... move the rows.
-                optionsTable.moveRowAtIndexPath(sourceIndexPath!, toIndexPath:indexPath)
+                optionsTable.moveRow(at: sourceIndexPath!, to:indexPath)
                 
                 // ... and update source so it is in sync with UI changes.
                 sourceIndexPath = indexPath;
@@ -202,16 +202,16 @@ class QuestionViewController : UIViewController {
                 restoreCellsState()
                 return
             }
-            guard let cell = optionsTable.cellForRowAtIndexPath(sourceIndexPathTmp) else {
+            guard let cell = optionsTable.cellForRow(at: sourceIndexPathTmp) else {
                 restoreCellsState()
                 return
             }
-            cell.hidden = false
+            cell.isHidden = false
             cell.alpha = 0.0
             
-            UIView.animateWithDuration(0.25, animations: {
+            UIView.animate(withDuration: 0.25, animations: {
                 self.snapShot?.center = cell.center
-                self.snapShot?.transform = CGAffineTransformIdentity
+                self.snapShot?.transform = CGAffineTransform.identity
                 self.snapShot?.alpha = 0.0
                 
                 cell.alpha = 1.0
@@ -224,10 +224,10 @@ class QuestionViewController : UIViewController {
         }
     }
     
-    func customSnapShotFromView(inputView: UIView) -> UIImageView{
+    func customSnapShotFromView(_ inputView: UIView) -> UIImageView{
         // Make an image from the input view.
         UIGraphicsBeginImageContextWithOptions(inputView.bounds.size, false, 0)
-        inputView.layer.renderInContext(UIGraphicsGetCurrentContext()!)
+        inputView.layer.render(in: UIGraphicsGetCurrentContext()!)
         let image = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
         
@@ -244,7 +244,7 @@ class QuestionViewController : UIViewController {
     func restoreCellsState() {
         for cell in optionsTable.visibleCells {
             cell.alpha = 1.0
-            cell.hidden = false
+            cell.isHidden = false
         }
     }
     
@@ -253,27 +253,27 @@ class QuestionViewController : UIViewController {
 //MARK: - UITableViewDataSource
 extension QuestionViewController : UITableViewDataSource {
 
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return optionsArray.count
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        var cell = tableView.dequeueReusableCellWithIdentifier("optionCell") as? OptionTableViewCell
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        var cell = tableView.dequeueReusableCell(withIdentifier: "optionCell") as? OptionTableViewCell
         
         if cell == nil {
-            cell = OptionTableViewCell(style: .Default, reuseIdentifier: "optionCell")
+            cell = OptionTableViewCell(style: .default, reuseIdentifier: "optionCell")
         }
         
-        cell!.backgroundColor = UIColor.clearColor()
+        cell!.backgroundColor = UIColor.clear
         cell!.optionContentView.backgroundColor = question.colorSet.mainColor
-        if question.optionsType == .Text {
-            cell!.optionImage.hidden = true
-            cell!.optionLabel.hidden = false
-            cell!.optionLabel.text = optionsArray[indexPath.row]
-        } else if question.optionsType == .Image {
-            cell!.optionLabel.hidden = true
-            cell!.optionImage.hidden = false
-            cell!.optionImage.image = UIImage(named: optionsArray[indexPath.row])
+        if question.optionsType == .text {
+            cell!.optionImage.isHidden = true
+            cell!.optionLabel.isHidden = false
+            cell!.optionLabel.text = optionsArray[(indexPath as NSIndexPath).row]
+        } else if question.optionsType == .image {
+            cell!.optionLabel.isHidden = true
+            cell!.optionImage.isHidden = false
+            cell!.optionImage.image = UIImage(named: optionsArray[(indexPath as NSIndexPath).row])
         
         }
         cell!.showsReorderControl = false

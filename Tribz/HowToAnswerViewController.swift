@@ -38,22 +38,22 @@ class HowToAnswerViewController: UIViewController {
         
         optionsArray = ["Option A", "Option B", "Option C", "Option D"]
         
-        optionsTable.separatorColor = UIColor.clearColor()
-        optionsTable.backgroundColor = UIColor.clearColor()
+        optionsTable.separatorColor = UIColor.clear
+        optionsTable.backgroundColor = UIColor.clear
         optionsTable.clipsToBounds = false
-        optionsTable.registerNib(UINib(nibName: "OptionTableViewCell", bundle: nil), forCellReuseIdentifier: "optionCell")
+        optionsTable.register(UINib(nibName: "OptionTableViewCell", bundle: nil), forCellReuseIdentifier: "optionCell")
         
         let panGesture = UIPanGestureRecognizer(target: self, action: #selector(QuestionViewController.panGestureRecognized))
         optionsTable.addGestureRecognizer(panGesture)
     }
     
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-        UIView.animateWithDuration(3, delay: 1, options: [.Repeat, .CurveEaseOut], animations: {
+        UIView.animate(withDuration: 3, delay: 1, options: [.repeat, .curveEaseOut], animations: {
             //                self.fingerImageStartConstraint.active = false
             //                self.fingerImageFinishConstraint.active = true
-            self.fingerImageView.transform = CGAffineTransformMakeTranslation(0, 140)
+            self.fingerImageView.transform = CGAffineTransform(translationX: 0, y: 140)
             }, completion: { finished in
                 if !finished {
                     return
@@ -63,26 +63,26 @@ class HowToAnswerViewController: UIViewController {
     }
     
     var snapShot: UIView?                ///< A snapshot of the row user is moving.
-    var sourceIndexPath: NSIndexPath?    ///< Initial index path, where gesture begins.
-    func panGestureRecognized(sender: UILongPressGestureRecognizer) {
+    var sourceIndexPath: IndexPath?    ///< Initial index path, where gesture begins.
+    func panGestureRecognized(_ sender: UILongPressGestureRecognizer) {
         let state = sender.state
-        let location = sender.locationInView(optionsTable)
+        let location = sender.location(in: optionsTable)
         
         switch state {
-        case .Began:
-            guard let indexPath = optionsTable.indexPathForRowAtPoint(location) else {
+        case .began:
+            guard let indexPath = optionsTable.indexPathForRow(at: location) else {
                 restoreCellsState()
                 return
             }
             
             sourceIndexPath = indexPath
-            guard let cell = optionsTable.cellForRowAtIndexPath(indexPath) else {
+            guard let cell = optionsTable.cellForRow(at: indexPath) else {
                 restoreCellsState()
                 return
             }
             
             fingerImageView.layer.removeAllAnimations()
-            fingerImageView.hidden = true
+            fingerImageView.isHidden = true
             
             //Take a snapshot of the selected row using helper method.
             snapShot = customSnapShotFromView(cell)
@@ -92,19 +92,19 @@ class HowToAnswerViewController: UIViewController {
             snapShot?.center = center
             snapShot?.alpha = 0.0
             optionsTable.addSubview(snapShot!)
-            UIView.animateWithDuration(0.25, animations: {
+            UIView.animate(withDuration: 0.25, animations: {
                 // Offset for gesture location.
                 center.y = location.y
                 self.snapShot?.center = center
-                self.snapShot?.transform = CGAffineTransformMakeScale(1.05, 1.05)
+                self.snapShot?.transform = CGAffineTransform(scaleX: 1.05, y: 1.05)
                 self.snapShot?.alpha = 0.98
                 
                 cell.alpha = 0.0
                 }, completion: { _ in
-                    cell.hidden = true
+                    cell.isHidden = true
             })
-        case .Changed:
-            guard let indexPath = optionsTable.indexPathForRowAtPoint(location) else {
+        case .changed:
+            guard let indexPath = optionsTable.indexPathForRow(at: location) else {
                 restoreCellsState()
                 return
             }
@@ -121,9 +121,9 @@ class HowToAnswerViewController: UIViewController {
             snapShot.center = center
             
             // Is destination valid and is it different from source?
-            if !indexPath.isEqual(sourceIndexPathTmp) {
+            if indexPath != sourceIndexPathTmp {
                 // ... move the rows.
-                optionsTable.moveRowAtIndexPath(sourceIndexPath!, toIndexPath:indexPath)
+                optionsTable.moveRow(at: sourceIndexPath!, to:indexPath)
                 
                 // ... and update source so it is in sync with UI changes.
                 sourceIndexPath = indexPath;
@@ -134,16 +134,16 @@ class HowToAnswerViewController: UIViewController {
                 restoreCellsState()
                 return
             }
-            guard let cell = optionsTable.cellForRowAtIndexPath(sourceIndexPathTmp) else {
+            guard let cell = optionsTable.cellForRow(at: sourceIndexPathTmp) else {
                 restoreCellsState()
                 return
             }
-            cell.hidden = false
+            cell.isHidden = false
             cell.alpha = 0.0
             
-            UIView.animateWithDuration(0.25, animations: {
+            UIView.animate(withDuration: 0.25, animations: {
                 self.snapShot?.center = cell.center
-                self.snapShot?.transform = CGAffineTransformIdentity
+                self.snapShot?.transform = CGAffineTransform.identity
                 self.snapShot?.alpha = 0.0
                 
                 cell.alpha = 1.0
@@ -156,10 +156,10 @@ class HowToAnswerViewController: UIViewController {
         }
     }
     
-    func customSnapShotFromView(inputView: UIView) -> UIImageView{
+    func customSnapShotFromView(_ inputView: UIView) -> UIImageView{
         // Make an image from the input view.
         UIGraphicsBeginImageContextWithOptions(inputView.bounds.size, false, 0)
-        inputView.layer.renderInContext(UIGraphicsGetCurrentContext()!)
+        inputView.layer.render(in: UIGraphicsGetCurrentContext()!)
         let image = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
         
@@ -176,7 +176,7 @@ class HowToAnswerViewController: UIViewController {
     func restoreCellsState() {
         for cell in optionsTable.visibleCells {
             cell.alpha = 1.0
-            cell.hidden = false
+            cell.isHidden = false
         }
     }
 
@@ -186,11 +186,11 @@ class HowToAnswerViewController: UIViewController {
     }
     
     func nextStepPressed() {
-        performSegueWithIdentifier("showQuestionPage", sender: nil)
+        performSegue(withIdentifier: "showQuestionPage", sender: nil)
     }
     
     func backPressed() {
-        self.navigationController?.popViewControllerAnimated(true)
+        self.navigationController?.popViewController(animated: true)
     }
 
 }
@@ -198,20 +198,20 @@ class HowToAnswerViewController: UIViewController {
 //MARK: - UITableViewDataSource
 extension HowToAnswerViewController : UITableViewDataSource {
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return optionsArray.count
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        var cell = tableView.dequeueReusableCellWithIdentifier("optionCell") as? OptionTableViewCell
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        var cell = tableView.dequeueReusableCell(withIdentifier: "optionCell") as? OptionTableViewCell
         
         if cell == nil {
-            cell = OptionTableViewCell(style: .Default, reuseIdentifier: "optionCell")
+            cell = OptionTableViewCell(style: .default, reuseIdentifier: "optionCell")
         }
         
-        cell!.backgroundColor = UIColor.clearColor()
+        cell!.backgroundColor = UIColor.clear
         cell!.optionContentView.backgroundColor = colorSet.mainColor
-        cell!.optionLabel.text = optionsArray[indexPath.row]
+        cell!.optionLabel.text = optionsArray[(indexPath as NSIndexPath).row]
         cell!.showsReorderControl = false
         
         return cell!

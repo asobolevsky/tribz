@@ -34,17 +34,17 @@ class SharePageViewController: UIViewController {
         userProgress.questionsResult = retrievePoints()
         
         let primaryColor = userProgress.getPrimaryColor()
-        shareText = "My primary color is \(primaryColor.rawValue). What's yours? Discover and find out more about your personality!".stringByAddingPercentEncodingWithAllowedCharacters(.URLQueryAllowedCharacterSet())
-        itunesLink = "https://itunes.apple.com/app/1151347866".stringByAddingPercentEncodingWithAllowedCharacters(.URLQueryAllowedCharacterSet())
+        shareText = "My primary color is \(primaryColor.rawValue). What's yours? Discover and find out more about your personality!".addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed())
+        itunesLink = "https://itunes.apple.com/app/1151347866".addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed())
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         userProgress.colorsPreference = []
     }
     
     func retrievePoints() -> [[Int]] {
-        let userDefaults = NSUserDefaults.standardUserDefaults()
-        if let allPoints = userDefaults.valueForKey("points") {
+        let userDefaults = UserDefaults.standard
+        if let allPoints = userDefaults.value(forKey: "points") {
             return allPoints as! [[Int]]
         }
         
@@ -52,7 +52,7 @@ class SharePageViewController: UIViewController {
     }
     
     func nextPressed() {
-        performSegueWithIdentifier("showLearnMorePage", sender: nil)
+        performSegue(withIdentifier: "showLearnMorePage", sender: nil)
     }
     
     @IBAction func shareWithFB() {
@@ -65,11 +65,11 @@ class SharePageViewController: UIViewController {
         share(link)
     }
     
-    func share(shareLink: String) {
-        UIApplication.sharedApplication().openURL(NSURL(string: shareLink)!)
+    func share(_ shareLink: String) {
+        UIApplication.shared.openURL(URL(string: shareLink)!)
     }
     
     func backPressed() {
-        self.navigationController?.popViewControllerAnimated(true)
+        self.navigationController?.popViewController(animated: true)
     }
 }

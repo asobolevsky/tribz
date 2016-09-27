@@ -10,7 +10,7 @@ import UIKit
 
 class Result: NSObject {
     
-    private static let results: [PrimaryColor: [String]] = [
+    fileprivate static let results: [PrimaryColor: [String]] = [
         .Red: ["Red light has a wavelength of about 650 nanometers.\nRed is the color of fire and blood, so it is associated with energy, war, danger, strength, power and determination.\nRed enhances human metabolism, increases respiration rate, and raises blood pressure.\nStop signs, stoplights, red cross, Ferraris, the first chakra and fire equipment are red.\nIt is a color found in many national flags.\nHaving high red energy you tend to behave...\n...as strong leader, fast paced thinker, risk taker, purposeful, critical thinker, driving, strong-willed, less patient, extroverted, competitive, problem solver, direct, outspoken and rational.\nYour focus is on results. You have a strong determination that influences those you interact with and you approach others in a direct and straightforward manner.\nYou enjoy applying your logical mind rigorously to work issues. Achieving a successful outcome supersedes people's feelings.\nYou can really enjoy a good, well thought through argument. You embrace conflict, as it clears the air and allows space to express concerns. You will argue your position forcefully and will not easily concede ground. You may appear aggressive and antagonistic especially to people with high green energy.\n\n" +
             "\t• You take great pleasure in working passionately and purposefully towards your goals.\n" +
             "\t• You to set yourself very ambitious targets and have high standards.\n" +
@@ -151,7 +151,7 @@ class Result: NSObject {
             "\t• Don’t touch him/her especially if it is the first time you meet"]
     ]
     
-    static func getResultForPrimaryColor(color: PrimaryColor) -> [String] {
+    static func getResultForPrimaryColor(_ color: PrimaryColor) -> [String] {
         return  results[color]!
     }
     

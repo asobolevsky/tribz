@@ -6,12 +6,12 @@
 //  Copyright © 2016 Le poisson du Mars. All rights reserved.
 //
 
-func isValidEmail(testStr:String) -> Bool {
+func isValidEmail(_ testStr:String) -> Bool {
     // print("validate calendar: \(testStr)")
     let emailRegEx = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}"
     
     let emailTest = NSPredicate(format:"SELF MATCHES %@", emailRegEx)
-    return emailTest.evaluateWithObject(testStr)
+    return emailTest.evaluate(with: testStr)
 }
 
 import UIKit
@@ -40,15 +40,15 @@ class SubmitViewController: UIViewController, UIPickerViewDataSource, UIPickerVi
         userProgress = UserProgress()
         userProgress.questionsResult = retrievePoints()
         
-        let deviceId = UIDevice.currentDevice().identifierForVendor!.UUIDString
+        let deviceId = UIDevice.current.identifierForVendor!.uuidString
         let colorPercents = userProgress.getColorsPercentage()
         submit = Submit(deviceId: deviceId, red: colorPercents[0] as! Int,
                         yellow: colorPercents[1] as! Int,
                         green: colorPercents[2] as! Int,
                         blue: colorPercents[3] as! Int)
         
-        let userDefaults = NSUserDefaults.standardUserDefaults()
-        if let allUserInfo = userDefaults.valueForKey("userInfo") as? [String: Int] {
+        let userDefaults = UserDefaults.standard
+        if let allUserInfo = userDefaults.value(forKey: "userInfo") as? [String: Int] {
             
             if let gender = allUserInfo["gender"] {
                 submit.gender = gender
@@ -86,7 +86,7 @@ class SubmitViewController: UIViewController, UIPickerViewDataSource, UIPickerVi
     
     func nextStepPressed() {
         
-        if let email = emailTextField.text where email.characters.count > 0 {
+        if let email = emailTextField.text , email.characters.count > 0 {
             if !validateFields() {
                 showAlert(title: "Error", message: "Enter valid email")
                 return
@@ -94,31 +94,31 @@ class SubmitViewController: UIViewController, UIPickerViewDataSource, UIPickerVi
             submit.email = email
         }
         
-        let postUrl = NSURL(string: "http://tribz.site/api/saveResult")
-        let request = NSMutableURLRequest(URL: postUrl!)
-        request.HTTPMethod = "POST"
+        let postUrl = URL(string: "http://tribz.site/api/saveResult")
+        let request = NSMutableURLRequest(url: postUrl!)
+        request.httpMethod = "POST"
         let postString = submit.preparedDataForSubmit()
-        request.HTTPBody = postString.dataUsingEncoding(NSUTF8StringEncoding)
-        let task = NSURLSession.sharedSession().dataTaskWithRequest(request) { data, response, error in
+        request.httpBody = postString.data(using: String.Encoding.utf8)
+        let task = URLSession.shared.dataTask(with: request, completionHandler: { data, response, error in
             guard error == nil && data != nil else {                                                          // check for fundamental networking error
                 print("error=\(error)")
                 return
             }
             
-            if let httpStatus = response as? NSHTTPURLResponse where httpStatus.statusCode != 200 {           // check for http errors
+            if let httpStatus = response as? HTTPURLResponse , httpStatus.statusCode != 200 {           // check for http errors
                 print("statusCode should be 200, but is \(httpStatus.statusCode)")
                 print("response = \(response)")
             }
             
-            let responseString = String(data: data!, encoding: NSUTF8StringEncoding)
+            let responseString = String(data: data!, encoding: String.Encoding.utf8)
             print("responseString = \(responseString)")
-        }
+        }) 
         task.resume()
         
-        performSegueWithIdentifier("showSquarePage", sender: nil)
+        performSegue(withIdentifier: "showSquarePage", sender: nil)
     }
     
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "showSquarePage" {
         }
     }
@@ -128,7 +128,7 @@ class SubmitViewController: UIViewController, UIPickerViewDataSource, UIPickerVi
         activeTextField = nil
     }
     
-    func setPickerViewAsInputViewForTextField(textfield: UITextField, withPickerData data: NSArray, withPickerViewTag tag: Int) {
+    func setPickerViewAsInputViewForTextField(_ textfield: UITextField, withPickerData data: NSArray, withPickerViewTag tag: Int) {
         let pickerView = UIPickerView()
         pickerView.dataSource = self
         pickerView.delegate = self
@@ -137,11 +137,11 @@ class SubmitViewController: UIViewController, UIPickerViewDataSource, UIPickerVi
         textfield.inputView = pickerView
     }
     
-    func buildAccessoryToolbarWithFrame(frame: CGRect) -> UIToolbar {
-        let toolBar = UIToolbar(frame: CGRectMake(0,0,CGRectGetWidth(frame),44))
-        toolBar.barStyle = .Default
+    func buildAccessoryToolbarWithFrame(_ frame: CGRect) -> UIToolbar {
+        let toolBar = UIToolbar(frame: CGRect(x: 0,y: 0,width: frame.width,height: 44))
+        toolBar.barStyle = .default
         let barButtonDone = UIBarButtonItem(title: "Done",
-                                            style: .Plain,
+                                            style: .plain,
                                             target: self,
                                             action: #selector(dismissInputView))
         toolBar.items = [barButtonDone]
@@ -159,8 +159,8 @@ class SubmitViewController: UIViewController, UIPickerViewDataSource, UIPickerVi
     }
     
     func retrievePoints() -> [[Int]] {
-        let userDefaults = NSUserDefaults.standardUserDefaults()
-        if let allPoints = userDefaults.valueForKey("points") {
+        let userDefaults = UserDefaults.standard
+        if let allPoints = userDefaults.value(forKey: "points") {
             return allPoints as! [[Int]]
         }
         
@@ -168,29 +168,29 @@ class SubmitViewController: UIViewController, UIPickerViewDataSource, UIPickerVi
     }
     
     func backPressed() {
-        self.navigationController?.popViewControllerAnimated(true)
+        self.navigationController?.popViewController(animated: true)
     }
     
-    func showAlert(title title: String, message: String) {
-        let alert = UIAlertController(title: title, message: message, preferredStyle: .Alert)
-        alert.addAction(UIAlertAction(title: "Ok", style: .Default, handler: nil))
-        presentViewController(alert, animated: true, completion: nil)
+    func showAlert(title: String, message: String) {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
+        present(alert, animated: true, completion: nil)
     }
     
     //MARK: - UITextFieldDelegate
-    func textFieldDidBeginEditing(textField: UITextField) {
+    func textFieldDidBeginEditing(_ textField: UITextField) {
         activeTextField = textField
         textField.inputAccessoryView = buildAccessoryToolbarWithFrame(textField.frame)
     }
     
     //MARK: - UIPickerViewDataSource
     // returns the number of 'columns' to display.
-    func numberOfComponentsInPickerView(picker: UIPickerView) -> Int {
+    func numberOfComponents(in picker: UIPickerView) -> Int {
         return 1
     }
     
     // returns the # of rows in each component..
-    func pickerView(pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
         if pickerView.tag == agePickerViewTag {
             return agePickerData.count
         } else if pickerView.tag == sleepPickerViewTag {
