@@ -106,7 +106,7 @@ class UserInfoQuestionViewController: UIViewController {
             dropLastPoints()
         }
         
-        self.navigationController?.popViewController(animated: true)
+        _ = self.navigationController?.popViewController(animated: true)
     }
     
     func retrievePoints() -> [[Int]] {

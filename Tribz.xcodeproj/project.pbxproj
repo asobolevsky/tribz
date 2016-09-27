@@ -32,7 +32,6 @@
 		8BC124001D7D417D008EF8AB /* ColorSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BC123FF1D7D417D008EF8AB /* ColorSet.swift */; };
 		8BC124021D7D4BAC008EF8AB /* Result.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BC124011D7D4BAC008EF8AB /* Result.swift */; };
 		8BC124061D7DB8A8008EF8AB /* SubmitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BC124051D7DB8A8008EF8AB /* SubmitViewController.swift */; };
-		BB3D2CD52862F471250EDD78 /* Pods_Tribz.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6CA1B91D0DFEC2E951C202FD /* Pods_Tribz.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -46,8 +45,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		38759A2CCE2FC1E6A732A705 /* Pods-Tribz.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Tribz.release.xcconfig"; path = "Pods/Target Support Files/Pods-Tribz/Pods-Tribz.release.xcconfig"; sourceTree = "<group>"; };
-		6CA1B91D0DFEC2E951C202FD /* Pods_Tribz.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Tribz.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		84A71F1F1D7DD77E00127646 /* Fabric.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Fabric.framework; sourceTree = "<group>"; };
 		84A71F201D7DD77E00127646 /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = "<group>"; };
 		8B03FEE71D88224400B58659 /* SquareResultPageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SquareResultPageViewController.swift; sourceTree = "<group>"; };
@@ -78,7 +75,6 @@
 		8BC123FF1D7D417D008EF8AB /* ColorSet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorSet.swift; sourceTree = "<group>"; };
 		8BC124011D7D4BAC008EF8AB /* Result.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Result.swift; sourceTree = "<group>"; };
 		8BC124051D7DB8A8008EF8AB /* SubmitViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SubmitViewController.swift; sourceTree = "<group>"; };
-		CFEE6D4CB5C3F30C5BDF8BF7 /* Pods-Tribz.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Tribz.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Tribz/Pods-Tribz.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -88,7 +84,6 @@
 			files = (
 				84A71F221D7DD77E00127646 /* Crashlytics.framework in Frameworks */,
 				84A71F211D7DD77E00127646 /* Fabric.framework in Frameworks */,
-				BB3D2CD52862F471250EDD78 /* Pods_Tribz.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -102,23 +97,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		2ABFBA34077160435A562CEB /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				6CA1B91D0DFEC2E951C202FD /* Pods_Tribz.framework */,
-			);
-			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		5BD4FAE1E14E68B0D23FFCF9 /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				CFEE6D4CB5C3F30C5BDF8BF7 /* Pods-Tribz.debug.xcconfig */,
-				38759A2CCE2FC1E6A732A705 /* Pods-Tribz.release.xcconfig */,
-			);
-			name = Pods;
-			sourceTree = "<group>";
-		};
 		8BA979FA1D75703A00A48A51 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
@@ -144,8 +122,6 @@
 				8BB75F271D7006FB00FD2F75 /* Tribz */,
 				8BB75F3C1D7006FB00FD2F75 /* TribzTests */,
 				8BB75F261D7006FB00FD2F75 /* Products */,
-				5BD4FAE1E14E68B0D23FFCF9 /* Pods */,
-				2ABFBA34077160435A562CEB /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -212,13 +188,10 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 8BB75F421D7006FB00FD2F75 /* Build configuration list for PBXNativeTarget "Tribz" */;
 			buildPhases = (
-				01DFF687216366A193105AF2 /* Check Pods Manifest.lock */,
 				8BB75F211D7006FB00FD2F75 /* Sources */,
 				8BB75F221D7006FB00FD2F75 /* Frameworks */,
 				8BB75F231D7006FB00FD2F75 /* Resources */,
 				84A71F1E1D7DD4B900127646 /* ShellScript */,
-				0DE5B4379DE501AE420B1039 /* Embed Pods Frameworks */,
-				2602AE38CBEA4CCF514D9E1B /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -311,51 +284,6 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		01DFF687216366A193105AF2 /* Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Check Pods Manifest.lock";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
-			showEnvVarsInLog = 0;
-		};
-		0DE5B4379DE501AE420B1039 /* Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Tribz/Pods-Tribz-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		2602AE38CBEA4CCF514D9E1B /* Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Tribz/Pods-Tribz-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		84A71F1E1D7DD4B900127646 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -455,7 +383,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
-				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -522,7 +450,6 @@
 		};
 		8BB75F431D7006FB00FD2F75 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = CFEE6D4CB5C3F30C5BDF8BF7 /* Pods-Tribz.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
@@ -543,7 +470,6 @@
 		};
 		8BB75F441D7006FB00FD2F75 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 38759A2CCE2FC1E6A732A705 /* Pods-Tribz.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";

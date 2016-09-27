@@ -417,19 +417,19 @@
                                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mOf-Zp-BYi">
-                                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="L7p-Mv-yBb">
                                                 <constraints>
-                                                    <constraint firstAttribute="width" secondItem="mOf-Zp-BYi" secondAttribute="height" multiplier="15:8" id="Ugx-sX-6cE"/>
+                                                    <constraint firstAttribute="height" constant="64" id="E9v-vv-eDJ"/>
+                                                    <constraint firstAttribute="width" constant="160" id="EDE-4J-Knv"/>
                                                 </constraints>
-                                            </view>
+                                                <state key="normal" image="bless_you"/>
+                                            </button>
                                         </subviews>
                                         <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.25" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
-                                            <constraint firstItem="mOf-Zp-BYi" firstAttribute="top" secondItem="9Fg-ro-erA" secondAttribute="bottom" constant="30" id="1HN-Nz-AB0"/>
-                                            <constraint firstItem="mOf-Zp-BYi" firstAttribute="leading" secondItem="FD3-MK-DPS" secondAttribute="leading" id="Y6U-cA-MlF"/>
+                                            <constraint firstItem="L7p-Mv-yBb" firstAttribute="centerX" secondItem="FD3-MK-DPS" secondAttribute="centerX" id="AzM-jd-ksZ"/>
+                                            <constraint firstItem="L7p-Mv-yBb" firstAttribute="top" secondItem="9Fg-ro-erA" secondAttribute="bottom" constant="50" id="PAh-Sy-2cC"/>
                                             <constraint firstAttribute="trailing" secondItem="9Fg-ro-erA" secondAttribute="trailing" constant="10" id="iKo-PV-Yer"/>
-                                            <constraint firstAttribute="trailing" secondItem="mOf-Zp-BYi" secondAttribute="trailing" id="lGQ-hs-Bp9"/>
                                             <constraint firstItem="9Fg-ro-erA" firstAttribute="leading" secondItem="FD3-MK-DPS" secondAttribute="leading" constant="10" id="oqJ-q8-CtE"/>
                                             <constraint firstItem="9Fg-ro-erA" firstAttribute="top" secondItem="FD3-MK-DPS" secondAttribute="top" constant="10" id="vKS-Kc-rbx"/>
                                         </constraints>
@@ -514,7 +514,6 @@
                         <outlet property="backViewView" destination="IWf-zS-eqW" id="2wP-FS-dAp"/>
                         <outlet property="contentView" destination="LmH-nD-RTY" id="e0h-lh-oaE"/>
                         <outlet property="nextStepViewView" destination="R7C-cb-R0H" id="n1V-ZG-0tI"/>
-                        <outlet property="playerView" destination="mOf-Zp-BYi" id="l5g-S7-lHr"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="m8d-mE-Edm" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1557,6 +1556,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name="bless_you" width="320" height="127"/>
         <image name="circle_button" width="21" height="21"/>
         <image name="fb_icon" width="150" height="150"/>
         <image name="finger" width="183" height="330"/>

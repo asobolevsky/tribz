@@ -99,7 +99,7 @@ class SubmitViewController: UIViewController, UIPickerViewDataSource, UIPickerVi
         request.httpMethod = "POST"
         let postString = submit.preparedDataForSubmit()
         request.httpBody = postString.data(using: String.Encoding.utf8)
-        let task = URLSession.shared.dataTask(with: request, completionHandler: { data, response, error in
+        let task = URLSession.shared.dataTask(with: request as URLRequest, completionHandler: { data, response, error in
             guard error == nil && data != nil else {                                                          // check for fundamental networking error
                 print("error=\(error)")
                 return
@@ -168,7 +168,7 @@ class SubmitViewController: UIViewController, UIPickerViewDataSource, UIPickerVi
     }
     
     func backPressed() {
-        self.navigationController?.popViewController(animated: true)
+        _ = self.navigationController?.popViewController(animated: true)
     }
     
     func showAlert(title: String, message: String) {

@@ -34,8 +34,8 @@ class SharePageViewController: UIViewController {
         userProgress.questionsResult = retrievePoints()
         
         let primaryColor = userProgress.getPrimaryColor()
-        shareText = "My primary color is \(primaryColor.rawValue). What's yours? Discover and find out more about your personality!".addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed())
-        itunesLink = "https://itunes.apple.com/app/1151347866".addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed())
+        shareText = "My primary color is \(primaryColor.rawValue). What's yours? Discover and find out more about your personality!".addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed)
+        itunesLink = "https://itunes.apple.com/app/1151347866".addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -70,6 +70,6 @@ class SharePageViewController: UIViewController {
     }
     
     func backPressed() {
-        self.navigationController?.popViewController(animated: true)
+        _ = self.navigationController?.popViewController(animated: true)
     }
 }

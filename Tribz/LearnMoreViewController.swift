@@ -27,11 +27,15 @@ class LearnMoreViewController: UIViewController {
     }
     
     func backPressed() {
-        self.navigationController?.popViewController(animated: true)
+        _ = self.navigationController?.popViewController(animated: true)
     }
     
     func mainPagePressed() {
-        self.navigationController?.popToRootViewController(animated: true)
+        _ = self.navigationController?.popToRootViewController(animated: true)
     }
 
+    @IBAction func imageButtonCLicked() {
+        UIApplication.shared.openURL(URL(string: "http://www.blessyou.me/")!)
+    }
+    
 }

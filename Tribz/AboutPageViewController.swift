@@ -32,7 +32,7 @@ class AboutPageViewController : UIViewController {
     }
     
     func backPressed() {
-        self.navigationController?.popViewController(animated: true)
+        _ = self.navigationController?.popViewController(animated: true)
     }
     
 }
