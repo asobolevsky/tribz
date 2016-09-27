@@ -46,10 +46,10 @@ class SquareResultPageViewController: UIViewController {
         let image = UIImage(named: "screen_8")
         contentView.backgroundColor = UIColor(patternImage: image!)
         
-        oppositeSquareButton.setTitle("\(sortedColorsPercentageArray[0]) %", for: UIControlState())
-        recessiveSquareButton.setTitle("\(sortedColorsPercentageArray[1]) %", for: UIControlState())
-        secondarySquareButton.setTitle("\(sortedColorsPercentageArray[2]) %", for: UIControlState())
-        primarySquareButton.setTitle("\(sortedColorsPercentageArray[3]) %", for: UIControlState())
+//        oppositeSquareButton.setTitle("\(sortedColorsPercentageArray[0]) %", for: UIControlState())
+//        recessiveSquareButton.setTitle("\(sortedColorsPercentageArray[1]) %", for: UIControlState())
+//        secondarySquareButton.setTitle("\(sortedColorsPercentageArray[2]) %", for: UIControlState())
+//        primarySquareButton.setTitle("\(sortedColorsPercentageArray[3]) %", for: UIControlState())
         
         primaryColor = userProgress.getPrimaryColor()
         secondaryColor = userProgress.getSecondaryColor()
